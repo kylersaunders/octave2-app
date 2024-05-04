@@ -39,7 +39,7 @@ export const getRecommendations = async ({
   if (minTempo) recommendationsBody.append('min_tempo', minTempo.toString());
   if (maxTempo) recommendationsBody.append('max_tempo', maxTempo.toString());
 
-  console.log(recommendationsBody.toString());
+  console.log('***', recommendationsBody.toString());
 
   const accessToken = await getSpotifyAccessToken();
   const response = await fetch('https://api.spotify.com/v1/recommendations?' + recommendationsBody.toString(), {
@@ -50,7 +50,9 @@ export const getRecommendations = async ({
   if (!response.ok) {
     throw new Error('recommendations_failed');
   }
-  return await response.json();
+  const res = await response.json();
+  if (!res.tracks.length) console.log('res', res);
+  return res;
 };
 
 export const getTempo = async (trackId: string) => {
@@ -113,4 +115,18 @@ export const addTracksToPlaylist = async ({ playlistId, trackIdList }: { playlis
     throw new Error('playlist_add_tracks_failed');
   }
   return await addTracksResponse.json();
+};
+
+export const searchTrackByName = async (trackName: string) => {
+  const accessToken = await getSpotifyAccessToken();
+  const response = await fetch(`https://api.spotify.com/v1/search?q=track%3D${trackName}&type=track`, {
+    headers: {
+      Authorization: 'Bearer ' + accessToken,
+    },
+  });
+  if (!response.ok) {
+    throw new Error('search_tracks_failed');
+  }
+  const data = await response.json();
+  return data.tracks.items;
 };

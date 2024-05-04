@@ -10,6 +10,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { DataTableColumnHeader } from './data-table-column-header';
 import { DataTableRowActions } from './data-table-row-actions';
 import { RecommendationsData } from '@/types/tracks';
+import { ButtonAddToPlaylist, ButtonAddToSeeds } from './row-button';
 
 // {
 //     "id": "4nb0zF72NRNfOXRBpzx6E4",
@@ -62,6 +63,14 @@ export const columns: ColumnDef<RecommendationsData>[] = [
         </audio>
       );
     },
+  },
+  {
+    id: 'addToSeeds',
+    cell: ({ row }) => <ButtonAddToSeeds row={row} />,
+  },
+  {
+    id: 'addToPlaylist',
+    cell: ({ row }) => <ButtonAddToPlaylist row={row} />,
   },
   {
     accessorKey: 'duration',
@@ -140,9 +149,5 @@ export const columns: ColumnDef<RecommendationsData>[] = [
     accessorKey: 'popularity',
     header: ({ column }) => <DataTableColumnHeader column={column} title='Popularity' />,
     cell: ({ row }) => <span>{row.getValue('popularity')}</span>,
-  },
-  {
-    id: 'actions',
-    cell: ({ row }) => <DataTableRowActions row={row} />,
   },
 ];

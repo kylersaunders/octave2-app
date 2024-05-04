@@ -20,6 +20,9 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 
 import { DataTablePagination } from './components/data-table-pagination';
 import { DataTableToolbar } from './components/data-table-toolbar';
+import { DataTableRowActions } from './components/data-table-row-actions';
+import { Open } from '@/types/utils';
+import { TrackPlus } from '@/lib/features/counter/counterSlice';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -32,6 +35,11 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [open, setOpen] = React.useState<Open>();
+
+  React.useEffect(() => {
+    console.log('open', open);
+  }, [open]);
 
   const table = useReactTable({
     data,
@@ -56,7 +64,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
   });
 
   return (
-    <div className='space-y-4 max-h-[50vh] max-w-[85vw] overflow-auto'>
+    <div className='w-[95vw] h-[40vh]'>
       <DataTableToolbar table={table} />
       <div className='rounded-md border'>
         <Table>
@@ -75,16 +83,41 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
-                  ))}
-                </TableRow>
-              ))
+              table.getRowModel().rows.map((row) => {
+                const { id } = row.original as TrackPlus;
+                return (
+                  <TableRow
+                    key={'row' + row.id}
+                    data-state={row.getIsSelected() && 'selected'}
+                    onClick={() => {
+                      const { id } = row.original as TrackPlus;
+                      // @ts-ignore
+                      // setOpen((prev: Open) => (prev ? { ...prev, [id]: !prev[id] } : { [id]: true }));
+                      // iterate through every key in open and set all to false
+                      // then set the current key to true
+                      // @ts-ignore
+                      setOpen((prev: Open) => {
+                        const newOpen: Open = {};
+                        for (const key in prev) {
+                          newOpen[key] = false;
+                        }
+                        newOpen[id] = true;
+                        return newOpen;
+                      });
+                    }}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      // <DataTableRowActions key={'actions' + row.id} row={row}>
+                      <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                      // </DataTableRowActions>
+                    ))}
+                    {/* <DataTableRowActions row={row} open={open || {}} setOpen={setOpen} id={id} /> */}
+                  </TableRow>
+                );
+              })
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className='h-24 text-center'>
+                <TableCell colSpan={columns.length} className='text-center'>
                   No results.
                 </TableCell>
               </TableRow>

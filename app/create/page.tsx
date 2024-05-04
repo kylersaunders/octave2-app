@@ -8,12 +8,10 @@ import { columns } from './components/recommendation-table/components/columns';
 
 export default function CreatePage() {
   console.log('CreatePage rendered');
-  const [data, setData] = useState<RecommendationsData[]>();
 
   return (
-    <div className='flex flex-col justify-center space-y-4 '>
-      <InputsForm setData={setData} />
-      {data ? <DataTable data={data} columns={columns} /> : null}
-    </div>
+    <>
+      <InputsForm />
+    </>
   );
 }

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-import { addTracksToPlaylistAsync, selectStatus, selectTitle, selectTracks } from '@/lib/features/counter/counterSlice';
+import { addTracksToPlaylistAsync, selectStatus, selectTitle, selectRecs, removeTrack } from '@/lib/features/counter/counterSlice';
 
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import styles from './Counter.module.css';
@@ -14,9 +14,13 @@ import { Button } from '@/components/ui/button';
 export default function PlaylistPage() {
   console.log('PlaylistPage rendered');
   const dispatch = useAppDispatch();
-  const tracks = useAppSelector(selectTracks);
+  const tracks = useAppSelector(selectRecs);
   const status = useAppSelector(selectStatus);
   const playlistName = useAppSelector(selectTitle);
+
+  function handleRemoveFromPlaylist(trackId: string) {
+    dispatch(removeTrack(trackId));
+  }
 
   async function handleCreatePlaylist() {
     const playlistId = await createPlaylist({ playlistName });
@@ -29,11 +33,16 @@ export default function PlaylistPage() {
 
   if (tracks.length) {
     return (
-      <div className='max-h-[40vh] overflow-auto space-y-4'>
+      <div className='space-y-4 m-4'>
         <div>
           {tracks.map((track: TrackPlus, ind: number) => (
-            <div key={track.id}>
-              {/* <img src={track.album.images[0].url} alt={track.name} /> */}
+            <div key={track.id} className='grid grid-cols-[1fr_5fr]'>
+              {/* <img src={track.album.images?.[0]?.url || '#'} alt={track.name} /> */}
+              <div key={'x' + ind} className='flex flex-row items-center m-1'>
+                <Button variant='outline' size='sm' onClick={() => handleRemoveFromPlaylist(track.id)}>
+                  x
+                </Button>
+              </div>
               <h3>{track.name}</h3>
               {/* <p>{track.artists.map((artist) => artist.name).join(', ')}</p> */}
             </div>

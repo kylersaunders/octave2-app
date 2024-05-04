@@ -4,6 +4,7 @@ import './globals.css';
 import { getSpotifyProfile } from '@/actions/profile';
 import { User } from '@/types/user';
 import { StoreProvider } from './StoreProvider';
+import { Card } from '@/components/ui/card';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -22,12 +23,24 @@ export default async function RootLayout({
   return (
     <StoreProvider>
       <html lang='en'>
-        <body className={inter.className}>
-          <div className='flex flex-col items-center justify-center w-screen h-screen my-8 space-y-4'>
-            <h1 className='text-4xl font-extrabold tracking-tight lg:text-5xl'>Octave</h1>
-            {user ? <h2>Welcome {user.display_name}</h2> : <h2>Not logged in</h2>}
-            {children}
-          </div>
+        <body>
+          <header className='sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
+            <div className='flex items-center justify-between p-4'>
+              <a href='/'>
+                <h1 className='text-2xl font-bold'>Octave</h1>
+              </a>
+              {user ? (
+                <Card className='p-2'>
+                  <h2>Welcome {user.display_name}</h2>
+                </Card>
+              ) : (
+                <Card className='p-2'>
+                  <h2>Not logged in</h2>
+                </Card>
+              )}
+            </div>
+          </header>
+          {children}
         </body>
       </html>
     </StoreProvider>
