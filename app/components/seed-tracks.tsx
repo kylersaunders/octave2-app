@@ -1,23 +1,21 @@
-import { useState } from 'react';
+'use client';
 import { addSeed, removeSeed, selectSeeds, selectSeedsStatus } from '@/lib/features/seeds/seedsSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { Button } from '@/components/ui/button';
-import SearchTracks from './search-tracks';
 
 export default function SeedTracks() {
   console.log('SeedTracks rendered');
   const dispatch = useAppDispatch();
   const seeds = useAppSelector(selectSeeds);
-  const status = useAppSelector(selectSeedsStatus);
+  // const status = useAppSelector(selectSeedsStatus);
 
   function handleRemoveSeed(seedId: string) {
     dispatch(removeSeed(seedId));
   }
 
   return (
-    <div className='min-w-[10vw] max-h-[10vh] space-y-4 overflow-auto'>
+    <div className='space-y-4'>
       <label htmlFor='seeds'>Seed Tracks</label>
-      <SearchTracks />
       <div className='grid grid-cols-[1fr_4fr]'>
         {seeds.map((seed) => (
           <>

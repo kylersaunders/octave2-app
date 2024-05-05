@@ -1,6 +1,6 @@
 import type { Action, ThunkAction } from '@reduxjs/toolkit';
 import { combineSlices, configureStore } from '@reduxjs/toolkit';
-import { counterSlice } from './features/counter/counterSlice';
+import { counterSlice } from './features/counter/playlistSlice';
 // import { quotesApiSlice } from './features/quotes/quotesApiSlice';
 import { seedsSlice } from './features/seeds/seedsSlice';
 import { tracksSlice } from './features/tracks/tracksSlice';

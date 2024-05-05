@@ -2,25 +2,10 @@
 
 import { ColumnDef } from '@tanstack/react-table';
 
-import { Badge } from '@/components/ui/badge';
-import { Checkbox } from '@/components/ui/checkbox';
-
-// import { labels, priorities, statuses } from '../data/data';
-// import { Task } from '../data/schema';
 import { DataTableColumnHeader } from './data-table-column-header';
-import { DataTableRowActions } from './data-table-row-actions';
 import { RecommendationsData } from '@/types/tracks';
 import { ButtonAddToPlaylist, ButtonAddToSeeds } from './row-button';
-
-// {
-//     "id": "4nb0zF72NRNfOXRBpzx6E4",
-//     "name": "The Lights That Glisten Forever In The Sky",
-//     "album": "The Bleached Moon Had A Magical Light",
-//     "artists": "The Safety Word",
-//     "duration": 147341,
-//     "preview": "https://p.scdn.co/mp3-preview/f6c1645cb9fba2726ac7410175e8c0e8f693d334?cid=d349f2b9978d429f967f7d13e2622a80",
-//     "popularity": 15
-// }
+import { TrackPlus } from '@/lib/features/counter/playlistSlice';
 
 function millisecondsToMMSS(ms: number) {
   const minutes = Math.floor(ms / 60000);
@@ -28,7 +13,7 @@ function millisecondsToMMSS(ms: number) {
   return `${minutes}:${parseInt(seconds) < 10 ? '0' : ''}${seconds}`;
 }
 
-export const columns: ColumnDef<RecommendationsData>[] = [
+export const columns: ColumnDef<RecommendationsData | TrackPlus>[] = [
   // {
   //   id: 'select',
   //   header: ({ table }) => (
@@ -53,12 +38,12 @@ export const columns: ColumnDef<RecommendationsData>[] = [
   //   enableHiding: false,
   // },
   {
-    accessorKey: 'preview',
+    accessorKey: 'preview_url',
     header: ({ column }) => <div>{''}</div>,
     cell: ({ row }) => {
       return (
         <audio controls>
-          <source src={row.getValue('preview')} type='audio/mpeg' />
+          <source src={row.getValue('preview_url')} type='audio/mpeg' />
           Your browser does not support the audio element.
         </audio>
       );
@@ -73,9 +58,9 @@ export const columns: ColumnDef<RecommendationsData>[] = [
     cell: ({ row }) => <ButtonAddToPlaylist row={row} />,
   },
   {
-    accessorKey: 'duration',
+    accessorKey: 'duration_ms',
     header: ({ column }) => <DataTableColumnHeader column={column} title='Duration' />,
-    cell: ({ row }) => <span>{millisecondsToMMSS(row.getValue('duration'))}</span>,
+    cell: ({ row }) => <span>{millisecondsToMMSS(row.getValue('duration_ms'))}</span>,
   },
   {
     accessorKey: 'name',
@@ -113,10 +98,13 @@ export const columns: ColumnDef<RecommendationsData>[] = [
       //   return null;
       // }
 
+      const artists: { name: string }[] = row.getValue('artists');
+      const names = artists.map((artist: any) => artist.name).join(', ');
+
       return (
         <div className='flex w-[100px] items-center'>
           {/* {status.icon && <status.icon className='mr-2 h-4 w-4 text-muted-foreground' />} */}
-          <span>{row.getValue('artists')}</span>
+          <span>{names}</span>
         </div>
       );
     },
@@ -134,10 +122,12 @@ export const columns: ColumnDef<RecommendationsData>[] = [
       //   return null;
       // }
 
+      const album: { name: string } = row.getValue('album');
+
       return (
         <div className='flex items-center'>
           {/* {priority.icon && <priority.icon className='mr-2 h-4 w-4 text-muted-foreground' />} */}
-          <span>{row.getValue('album')}</span>
+          <span>{album.name}</span>
         </div>
       );
     },

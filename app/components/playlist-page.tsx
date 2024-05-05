@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from 'react';
 
-import { addTracksToPlaylistAsync, selectStatus, selectTitle, selectRecs, removeTrack } from '@/lib/features/counter/counterSlice';
+import { addTracksToPlaylistAsync, selectStatus, selectTitle, selectRecs, removeTrack } from '@/lib/features/counter/playlistSlice';
 
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import styles from './Counter.module.css';
-import { TrackPlus } from '@/lib/features/counter/counterSlice';
+import { TrackPlus } from '@/lib/features/counter/playlistSlice';
 import { createPlaylist } from '@/actions/tracks';
 import build from 'next/dist/build';
 import { Button } from '@/components/ui/button';

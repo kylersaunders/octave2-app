@@ -22,7 +22,8 @@ import { DataTablePagination } from './components/data-table-pagination';
 import { DataTableToolbar } from './components/data-table-toolbar';
 import { DataTableRowActions } from './components/data-table-row-actions';
 import { Open } from '@/types/utils';
-import { TrackPlus } from '@/lib/features/counter/counterSlice';
+import { TrackPlus } from '@/lib/features/counter/playlistSlice';
+import { Card } from '@/components/ui/card';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -35,11 +36,6 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [open, setOpen] = React.useState<Open>();
-
-  React.useEffect(() => {
-    console.log('open', open);
-  }, [open]);
 
   const table = useReactTable({
     data,
@@ -64,8 +60,9 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
   });
 
   return (
-    <div className='w-[95vw] h-[40vh]'>
+    <div className='space-y-4 p-4'>
       <DataTableToolbar table={table} />
+      <DataTablePagination table={table} />
       <div className='rounded-md border'>
         <Table>
           <TableHeader>
@@ -89,22 +86,22 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                   <TableRow
                     key={'row' + row.id}
                     data-state={row.getIsSelected() && 'selected'}
-                    onClick={() => {
-                      const { id } = row.original as TrackPlus;
-                      // @ts-ignore
-                      // setOpen((prev: Open) => (prev ? { ...prev, [id]: !prev[id] } : { [id]: true }));
-                      // iterate through every key in open and set all to false
-                      // then set the current key to true
-                      // @ts-ignore
-                      setOpen((prev: Open) => {
-                        const newOpen: Open = {};
-                        for (const key in prev) {
-                          newOpen[key] = false;
-                        }
-                        newOpen[id] = true;
-                        return newOpen;
-                      });
-                    }}
+                    // onClick={() => {
+                    //   const { id } = row.original as TrackPlus;
+                    //   // @ts-ignore
+                    //   // setOpen((prev: Open) => (prev ? { ...prev, [id]: !prev[id] } : { [id]: true }));
+                    //   // iterate through every key in open and set all to false
+                    //   // then set the current key to true
+                    //   // @ts-ignore
+                    //   setOpen((prev: Open) => {
+                    //     const newOpen: Open = {};
+                    //     for (const key in prev) {
+                    //       newOpen[key] = false;
+                    //     }
+                    //     newOpen[id] = true;
+                    //     return newOpen;
+                    //   });
+                    // }}
                   >
                     {row.getVisibleCells().map((cell) => (
                       // <DataTableRowActions key={'actions' + row.id} row={row}>
@@ -125,7 +122,6 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination table={table} />
     </div>
   );
 }
