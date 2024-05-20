@@ -5,6 +5,7 @@ import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, Dr
 
 import { Minus, Plus } from 'lucide-react';
 import { useState } from 'react';
+import { AdvancedSearchForm } from '../recommendation-inputs';
 
 export default function AdvancedSearch() {
   const [goal, setGoal] = useState(350);
@@ -18,8 +19,9 @@ export default function AdvancedSearch() {
         <Button variant='outline'>Advanced Search</Button>
       </DrawerTrigger>
       <DrawerContent className='bottom-0'>
-        <div className='mx-auto w-full max-w-sm'>
-          <DrawerHeader>
+        <div className='mx-auto w-full max-w-full p-8'>
+          <AdvancedSearchForm />
+          {/* <DrawerHeader>
             <DrawerTitle>Move Goal</DrawerTitle>
             <DrawerDescription>Set your daily activity goal.</DrawerDescription>
           </DrawerHeader>
@@ -45,7 +47,7 @@ export default function AdvancedSearch() {
             <DrawerClose asChild>
               <Button variant='outline'>Cancel</Button>
             </DrawerClose>
-          </DrawerFooter>
+          </DrawerFooter> */}
         </div>
       </DrawerContent>
     </Drawer>

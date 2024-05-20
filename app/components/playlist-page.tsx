@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from 'react';
 
-import { addTracksToPlaylistAsync, selectStatus, selectTitle, selectRecs, removeTrack } from '@/lib/features/counter/playlistSlice';
+import { addTracksToPlaylistAsync, selectStatus, selectTitle, selectPlaylistTracks, removeTrack } from '@/lib/features/playlist/playlistSlice';
 
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import styles from './Counter.module.css';
-import { TrackPlus } from '@/lib/features/counter/playlistSlice';
+import { TrackPlus } from '@/lib/features/playlist/playlistSlice';
 import { createPlaylist } from '@/actions/tracks';
 import build from 'next/dist/build';
 import { Button } from '@/components/ui/button';
@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/button';
 export default function PlaylistPage() {
   console.log('PlaylistPage rendered');
   const dispatch = useAppDispatch();
-  const tracks = useAppSelector(selectRecs);
+  const tracks = useAppSelector(selectPlaylistTracks);
   const status = useAppSelector(selectStatus);
   const playlistName = useAppSelector(selectTitle);
 

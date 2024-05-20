@@ -1,6 +1,6 @@
 import { createAppSlice } from '@/lib/createAppSlice';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { TrackPlus } from '../counter/playlistSlice';
+import { TrackPlus } from '../playlist/playlistSlice';
 import { SEEDS_IDLE_PHRASE, SEEDS_MAX_PHRASE } from '@/lib/constants';
 import { RecommendationsData } from '@/types/tracks';
 
@@ -31,11 +31,11 @@ export const tracksSlice = createAppSlice({
     }),
   }),
   selectors: {
-    selectTracks: (state) => state.tracks,
+    selectRecTracks: (state) => state.tracks,
     selectTracksStatus: (state) => state.status,
     selectSearchTerm: (state) => state.searchTerm,
   },
 });
 
 export const { setTracks, clearTracks, setSearchTerm } = tracksSlice.actions;
-export const { selectTracks, selectTracksStatus, selectSearchTerm } = tracksSlice.selectors;
+export const { selectRecTracks, selectTracksStatus, selectSearchTerm } = tracksSlice.selectors;

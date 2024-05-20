@@ -5,7 +5,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from './data-table-column-header';
 import { RecommendationsData } from '@/types/tracks';
 import { ButtonAddToPlaylist, ButtonAddToSeeds } from './row-button';
-import { TrackPlus } from '@/lib/features/counter/playlistSlice';
+import { TrackPlus } from '@/lib/features/playlist/playlistSlice';
 
 function millisecondsToMMSS(ms: number) {
   const minutes = Math.floor(ms / 60000);

@@ -1,9 +1,9 @@
 import type { Action, ThunkAction } from '@reduxjs/toolkit';
 import { combineSlices, configureStore } from '@reduxjs/toolkit';
-import { counterSlice } from './features/counter/playlistSlice';
+import { counterSlice } from './features/playlist/playlistSlice';
 // import { quotesApiSlice } from './features/quotes/quotesApiSlice';
 import { seedsSlice } from './features/seeds/seedsSlice';
-import { tracksSlice } from './features/tracks/tracksSlice';
+import { tracksSlice } from './features/recs/recsSlice';
 
 // `combineSlices` automatically combines the reducers using
 // their `reducerPath`s, therefore we no longer need to call `combineReducers`.

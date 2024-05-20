@@ -1,6 +1,6 @@
 'use client';
 
-import { setTracks, clearTracks, selectSearchTerm, selectTracks, setSearchTerm } from '@/lib/features/tracks/tracksSlice';
+import { setTracks, clearTracks, selectSearchTerm, selectRecTracks, setSearchTerm } from '@/lib/features/recs/recsSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { searchTrackByName } from '@/actions/tracks';
 import { debounce } from 'lodash';

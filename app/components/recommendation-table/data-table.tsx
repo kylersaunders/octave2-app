@@ -22,7 +22,7 @@ import { DataTablePagination } from './components/data-table-pagination';
 import { DataTableToolbar } from './components/data-table-toolbar';
 import { DataTableRowActions } from './components/data-table-row-actions';
 import { Open } from '@/types/utils';
-import { TrackPlus } from '@/lib/features/counter/playlistSlice';
+import { TrackPlus } from '@/lib/features/playlist/playlistSlice';
 import { Card } from '@/components/ui/card';
 
 interface DataTableProps<TData, TValue> {

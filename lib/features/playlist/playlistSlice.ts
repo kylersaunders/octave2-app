@@ -146,7 +146,7 @@ export const counterSlice = createAppSlice({
   selectors: {
     selectTitle: (counter) => counter.title,
     selectId: (counter) => counter.id,
-    selectRecs: (counter) => counter.tracks,
+    selectPlaylistTracks: (counter) => counter.tracks,
     selectStatus: (counter) => counter.status,
   },
 });
@@ -155,7 +155,7 @@ export const counterSlice = createAppSlice({
 export const { setTitle, addTrack, removeTrack, getTempoAsync, setId, addTracksToPlaylistAsync } = counterSlice.actions;
 
 // Selectors returned by `slice.selectors` take the root state as their first argument.
-export const { selectTitle, selectId, selectRecs, selectStatus } = counterSlice.selectors;
+export const { selectTitle, selectId, selectPlaylistTracks, selectStatus } = counterSlice.selectors;
 
 // We can also write thunks by hand, which may contain both sync and async logic.
 // Here's an example of conditionally dispatching actions based on current state.
@@ -173,7 +173,7 @@ export const { selectTitle, selectId, selectRecs, selectStatus } = counterSlice.
 //   console.log('buildPlaylist');
 //   const state = getState();
 //   const title = selectTitle(state);
-//   const tracks = selectTracks(state);
+//   const tracks = selectRecTracks(state);
 //   const playlistId = selectId(state);
 
 //   dispatch(createPlaylistAsync(title));

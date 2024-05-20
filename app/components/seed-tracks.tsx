@@ -2,34 +2,33 @@
 import { addSeed, removeSeed, selectSeeds, selectSeedsStatus } from '@/lib/features/seeds/seedsSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { Button } from '@/components/ui/button';
+import { Cross2Icon } from '@radix-ui/react-icons';
 
 export default function SeedTracks() {
   console.log('SeedTracks rendered');
   const dispatch = useAppDispatch();
   const seeds = useAppSelector(selectSeeds);
-  // const status = useAppSelector(selectSeedsStatus);
 
   function handleRemoveSeed(seedId: string) {
     dispatch(removeSeed(seedId));
   }
 
-  return (
-    <div className='space-y-4'>
-      <label htmlFor='seeds'>Seed Tracks</label>
-      <div className='grid grid-cols-[1fr_4fr]'>
-        {seeds.map((seed) => (
-          <>
-            <div key={'x' + seed.id} className='flex flex-row items-center m-1'>
-              <Button variant='destructive' size='sm' onClick={() => handleRemoveSeed(seed.id)}>
-                x
-              </Button>
-            </div>
-            <div key={'name' + seed.id} className='flex flex-row items-center m-1'>
-              <span>{seed.name}</span>
-            </div>
-          </>
-        ))}
+  if (seeds.length)
+    return (
+      <div className='flex flex-row items-center justify-center space-x-4'>
+        <label htmlFor='seeds' className='ml-2'>
+          Seed Tracks
+        </label>
+        <div className='flex flex-row border rounded-md p-2'>
+          {seeds.map((seed, ind) => (
+            <Button key={ind} variant='ghost' onClick={() => handleRemoveSeed(seed.id)} className='h-8 px-2 lg:px-3'>
+              {seed.name}
+              <Cross2Icon className='ml-2 h-4 w-4' />
+            </Button>
+          ))}
+        </div>
       </div>
-    </div>
-  );
+    );
+
+  return <></>;
 }

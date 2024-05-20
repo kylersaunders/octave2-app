@@ -17,13 +17,13 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { addTrack, selectStatus, selectRecs } from '@/lib/features/counter/playlistSlice';
+import { addTrack, selectStatus, selectPlaylistTracks } from '@/lib/features/playlist/playlistSlice';
 
 import { addSeed, selectSeeds, selectSeedsStatus } from '@/lib/features/seeds/seedsSlice';
 
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import styles from './Counter.module.css';
-import { TrackPlus } from '@/lib/features/counter/playlistSlice';
+import { TrackPlus } from '@/lib/features/playlist/playlistSlice';
 import { Open } from '@/types/utils';
 import { SEEDS_MAX_PHRASE } from '@/lib/constants';
 
@@ -58,7 +58,7 @@ export function ButtonAddToSeeds<TData>({ row }: DataTableRowActionsProps<TData>
 export function ButtonAddToPlaylist<TData>({ row }: DataTableRowActionsProps<TData>) {
   const track = row.original as TrackPlus;
   const dispatch = useAppDispatch();
-  const tracks = useAppSelector(selectRecs);
+  const tracks = useAppSelector(selectPlaylistTracks);
 
   function handleAddToPlaylist() {
     console.log('+track', track.id);

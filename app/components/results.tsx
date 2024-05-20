@@ -1,13 +1,13 @@
 'use client';
 
-import { selectTracks } from '@/lib/features/tracks/tracksSlice';
+import { selectRecTracks } from '@/lib/features/recs/recsSlice';
 import { columns } from './recommendation-table/components/columns';
 import { DataTable } from './recommendation-table/data-table';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 
 export default function ResultsTable() {
   console.log('ResultsTable rendered');
-  const tracks = useAppSelector(selectTracks);
+  const tracks = useAppSelector(selectRecTracks);
   console.log('tracks', tracks);
 
   // @ts-ignore

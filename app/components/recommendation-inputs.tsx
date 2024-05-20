@@ -9,16 +9,16 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from '@/components/ui/input';
 import { getRecommendations } from '@/actions/tracks';
 import { RecommendationsData, Track } from '@/types/tracks';
-import { selectStatus, selectRecs } from '@/lib/features/counter/playlistSlice';
+import { selectStatus, selectPlaylistTracks } from '@/lib/features/playlist/playlistSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import styles from './Counter.module.css';
-import { TrackPlus } from '@/lib/features/counter/playlistSlice';
+import { TrackPlus } from '@/lib/features/playlist/playlistSlice';
 import SeedTracks from '@/app/components/seed-tracks';
 import { addSeed, selectSeeds } from '@/lib/features/seeds/seedsSlice';
 import { DataTable } from './recommendation-table/data-table';
 import { useState } from 'react';
 import { columns } from './recommendation-table/components/columns';
-import { clearTracks, selectTracks, setSearchTerm, setTracks } from '@/lib/features/tracks/tracksSlice';
+import { clearTracks, selectRecTracks, setSearchTerm, setTracks } from '@/lib/features/recs/recsSlice';
 
 const inputFormSchema = z.object({
   seedGenres: z.array(z.string()).optional(),
@@ -42,7 +42,7 @@ const defaultValues: Partial<RecommendationInputFormValues> = {
   seedTracks: ['12jmCJskrYkrEEy6rUlQ0W'],
 };
 
-export function InputsForm() {
+export function AdvancedSearchForm() {
   console.log('InputsForm rerendered');
   const dispatch = useAppDispatch();
   const [data, setData] = useState<RecommendationsData[]>();
