@@ -1,11 +1,11 @@
 'use client';
 
-import { setTracks, clearTracks, selectSearchTerm, selectRecTracks, setSearchTerm } from '@/lib/features/recs/recsSlice';
+import { setTracks, selectSearchTerm, setSearchTerm } from '@/lib/features/recs/byNameSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { searchTrackByName } from '@/actions/tracks';
+import { searchTrackByAlbum, searchTrackByArtist, searchTrackByName } from '@/actions/tracks';
 import { debounce } from 'lodash';
 import { Card } from '@/components/ui/card';
-import { use, useEffect } from 'react';
+import { useEffect } from 'react';
 
 export default function SearchTracks() {
   const dispatch = useAppDispatch();
@@ -16,8 +16,11 @@ export default function SearchTracks() {
   }
 
   const debouncedSearch = debounce(async (trackName: string) => {
-    const data = await searchTrackByName(trackName);
-    dispatch(setTracks(data));
+    // run searches by name, artist, and album at the same time
+    const data = await Promise.all([searchTrackByName(trackName), searchTrackByArtist(trackName), searchTrackByAlbum(trackName)]);
+    const flatData = data.flat();
+
+    dispatch(setTracks(flatData));
   }, 500);
 
   useEffect(() => {

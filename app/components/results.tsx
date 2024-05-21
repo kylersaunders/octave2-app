@@ -1,6 +1,6 @@
 'use client';
 
-import { selectRecTracks } from '@/lib/features/recs/recsSlice';
+import { selectRecTracks } from '@/lib/features/recs/byNameSlice';
 import { columns } from './recommendation-table/components/columns';
 import { DataTable } from './recommendation-table/data-table';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';

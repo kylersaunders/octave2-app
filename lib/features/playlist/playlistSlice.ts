@@ -9,14 +9,14 @@ export interface TrackPlus extends Track {
   tempo?: number;
 }
 
-export interface CounterSliceState {
+export interface BuildPlaylistSliceState {
   id: string;
   title: string;
   tracks: TrackPlus[];
   status: 'idle' | 'loading' | 'failed';
 }
 
-const initialState: CounterSliceState = {
+const initialState: BuildPlaylistSliceState = {
   id: '',
   title: 'bot_playlist2',
   tracks: [],
@@ -24,7 +24,7 @@ const initialState: CounterSliceState = {
 };
 
 // If you are not using async thunks you can use the standalone `createSlice`.
-export const counterSlice = createAppSlice({
+export const buildPlaylistSlice = createAppSlice({
   name: 'counter',
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
@@ -152,10 +152,10 @@ export const counterSlice = createAppSlice({
 });
 
 // Action creators are generated for each case reducer function.
-export const { setTitle, addTrack, removeTrack, getTempoAsync, setId, addTracksToPlaylistAsync } = counterSlice.actions;
+export const { setTitle, addTrack, removeTrack, getTempoAsync, setId, addTracksToPlaylistAsync } = buildPlaylistSlice.actions;
 
 // Selectors returned by `slice.selectors` take the root state as their first argument.
-export const { selectTitle, selectId, selectPlaylistTracks, selectStatus } = counterSlice.selectors;
+export const { selectTitle, selectId, selectPlaylistTracks, selectStatus } = buildPlaylistSlice.selectors;
 
 // We can also write thunks by hand, which may contain both sync and async logic.
 // Here's an example of conditionally dispatching actions based on current state.

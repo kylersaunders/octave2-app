@@ -18,7 +18,7 @@ import { addSeed, selectSeeds } from '@/lib/features/seeds/seedsSlice';
 import { DataTable } from './recommendation-table/data-table';
 import { useState } from 'react';
 import { columns } from './recommendation-table/components/columns';
-import { clearTracks, selectRecTracks, setSearchTerm, setTracks } from '@/lib/features/recs/recsSlice';
+import { clearTracks, selectRecTracks, setSearchTerm, setTracks } from '@/lib/features/recs/byNameSlice';
 
 const inputFormSchema = z.object({
   seedGenres: z.array(z.string()).optional(),

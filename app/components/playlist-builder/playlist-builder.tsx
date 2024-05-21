@@ -8,6 +8,7 @@ import { TrackPlus, removeTrack, selectPlaylistTracks } from '@/lib/features/pla
 import { useAppSelector } from '@/lib/hooks';
 import { Minus, Plus } from 'lucide-react';
 import { useState } from 'react';
+import { summarizeArtistsMaxN } from '../recommendation-table/components/columns';
 
 export default function PlaylistBuilder() {
   const tracks = useAppSelector(selectPlaylistTracks);
@@ -40,7 +41,7 @@ export default function PlaylistBuilder() {
           {tracks.map((track: TrackPlus, index: number) => (
             <div key={track.id} className='grid grid-cols-4 gap-1'>
               <div>{track.name}</div>
-              <div>{track.artists.map((x) => x.name).join(', ')}</div>
+              <div>{summarizeArtistsMaxN(track.artists, 3)}</div>
               <div>{track.duration_ms}</div>
               <div>
                 <Button variant='destructive' onClick={() => removeTrack(tracks[index].id)}>

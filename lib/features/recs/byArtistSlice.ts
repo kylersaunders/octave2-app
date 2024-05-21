@@ -4,38 +4,34 @@ import { TrackPlus } from '../playlist/playlistSlice';
 import { SEEDS_IDLE_PHRASE, SEEDS_MAX_PHRASE } from '@/lib/constants';
 import { RecommendationsData } from '@/types/tracks';
 
-export interface TracksSliceState {
+export interface RecsByArtistState {
   tracks: Array<TrackPlus | RecommendationsData | null>;
   searchTerm?: string;
   status: typeof SEEDS_IDLE_PHRASE | 'busy' | 'error' | 'success';
 }
 
-const initialState: TracksSliceState = {
+const initialState: RecsByArtistState = {
   tracks: [],
   searchTerm: '',
   status: 'idle',
 };
 
-export const tracksSlice = createAppSlice({
+export const recsByArtistSlice = createAppSlice({
   name: 'tracks',
   initialState,
   reducers: (create) => ({
-    setTracks: create.reducer((state, action: PayloadAction<TrackPlus[]>) => {
+    setTracksByArtist: create.reducer((state, action: PayloadAction<TrackPlus[]>) => {
       state.tracks = action.payload;
     }),
-    clearTracks: create.reducer((state) => {
+    clearTracksByArtist: create.reducer((state) => {
       state.tracks = [];
-    }),
-    setSearchTerm: create.reducer((state, action: PayloadAction<string>) => {
-      state.searchTerm = action.payload;
     }),
   }),
   selectors: {
-    selectRecTracks: (state) => state.tracks,
+    selectRecsByArtist: (state) => state.tracks,
     selectTracksStatus: (state) => state.status,
-    selectSearchTerm: (state) => state.searchTerm,
   },
 });
 
-export const { setTracks, clearTracks, setSearchTerm } = tracksSlice.actions;
-export const { selectRecTracks, selectTracksStatus, selectSearchTerm } = tracksSlice.selectors;
+export const { setTracksByArtist, clearTracksByArtist } = recsByArtistSlice.actions;
+export const { selectRecsByArtist, selectTracksStatus } = recsByArtistSlice.selectors;

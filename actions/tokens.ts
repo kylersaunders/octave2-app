@@ -11,7 +11,7 @@ export const loginWithSpotify: () => void = async () => {
   const state = generateRandomUserState(16);
   params.append('state', state);
 
-  const scope = 'user-read-private user-read-email';
+  const scope = 'user-read-private user-read-email playlist-read-private playlist-read-collaborative';
   params.append('scope', scope);
 
   if (process.env.SPOTIFY_CLIENT_ID === undefined) {
@@ -72,6 +72,7 @@ export const updateSpotifyTokens: (refresh_token: string) => Promise<void> = asy
   }
   const tokens = await response.json();
   kv.set('userId_access_token', tokens.access_token);
+  // TODO - see if this needs setting?
   // kv.set('userId_refresh_token', tokens.refresh_token);
   const expiresAt = new Date().getTime() + tokens.expires_in * 1000;
   kv.set('userId_expires_at', expiresAt);

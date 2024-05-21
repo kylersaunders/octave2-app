@@ -130,3 +130,31 @@ export const searchTrackByName = async (trackName: string) => {
   const data = await response.json();
   return data.tracks.items;
 };
+
+export const searchTrackByArtist = async (artistName: string) => {
+  const accessToken = await getSpotifyAccessToken();
+  const response = await fetch(`https://api.spotify.com/v1/search?q=artist%3D${artistName}&type=track`, {
+    headers: {
+      Authorization: 'Bearer ' + accessToken,
+    },
+  });
+  if (!response.ok) {
+    throw new Error('search_tracks_failed');
+  }
+  const data = await response.json();
+  return data.tracks.items;
+};
+
+export const searchTrackByAlbum = async (albumName: string) => {
+  const accessToken = await getSpotifyAccessToken();
+  const response = await fetch(`https://api.spotify.com/v1/search?q=album%3D${albumName}&type=track`, {
+    headers: {
+      Authorization: 'Bearer ' + accessToken,
+    },
+  });
+  if (!response.ok) {
+    throw new Error('search_tracks_failed');
+  }
+  const data = await response.json();
+  return data.tracks.items;
+};

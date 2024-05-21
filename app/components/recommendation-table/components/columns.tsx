@@ -7,11 +7,16 @@ import { RecommendationsData } from '@/types/tracks';
 import { ButtonAddToPlaylist, ButtonAddToSeeds } from './row-button';
 import { TrackPlus } from '@/lib/features/playlist/playlistSlice';
 
-function millisecondsToMMSS(ms: number) {
+export function millisecondsToMMSS(ms: number) {
   const minutes = Math.floor(ms / 60000);
   const seconds = ((ms % 60000) / 1000).toFixed(0);
   return `${minutes}:${parseInt(seconds) < 10 ? '0' : ''}${seconds}`;
 }
+
+export const summarizeArtistsMaxN = (artists: { name: string }[], n: number) => {
+  const names = artists.map((artist) => artist.name);
+  return names.slice(0, n).join(', ') + (names.length > n ? '...' : '');
+};
 
 export const columns: ColumnDef<RecommendationsData | TrackPlus>[] = [
   // {
@@ -66,11 +71,8 @@ export const columns: ColumnDef<RecommendationsData | TrackPlus>[] = [
     accessorKey: 'name',
     header: ({ column }) => <DataTableColumnHeader column={column} title='Title' />,
     cell: ({ row }) => {
-      // const label = labels.find((label: any) => label.value === row.original.label);
-
       return (
         <div className='flex space-x-2'>
-          {/* {label && <Badge variant='outline'>{label.label}</Badge>} */}
           <span className='max-w-[500px] truncate font-medium'>{row.getValue('name')}</span>
         </div>
       );
@@ -92,18 +94,11 @@ export const columns: ColumnDef<RecommendationsData | TrackPlus>[] = [
     accessorKey: 'artists',
     header: ({ column }) => <DataTableColumnHeader column={column} title='Artist' />,
     cell: ({ row }) => {
-      // const status = statuses.find((status: any) => status.value === row.getValue('artists'));
-
-      // if (!status) {
-      //   return null;
-      // }
-
       const artists: { name: string }[] = row.getValue('artists');
-      const names = artists.map((artist: any) => artist.name).join(', ');
+      const names = summarizeArtistsMaxN(artists, 3);
 
       return (
         <div className='flex w-[100px] items-center'>
-          {/* {status.icon && <status.icon className='mr-2 h-4 w-4 text-muted-foreground' />} */}
           <span>{names}</span>
         </div>
       );
@@ -116,17 +111,10 @@ export const columns: ColumnDef<RecommendationsData | TrackPlus>[] = [
     accessorKey: 'album',
     header: ({ column }) => <DataTableColumnHeader column={column} title='Album' />,
     cell: ({ row }) => {
-      // const priority = priorities.find((priority: any) => priority.value === row.getValue('album'));
-
-      // if (!priority) {
-      //   return null;
-      // }
-
       const album: { name: string } = row.getValue('album');
 
       return (
         <div className='flex items-center'>
-          {/* {priority.icon && <priority.icon className='mr-2 h-4 w-4 text-muted-foreground' />} */}
           <span>{album.name}</span>
         </div>
       );
