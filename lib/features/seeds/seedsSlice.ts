@@ -1,6 +1,6 @@
 import { createAppSlice } from '@/lib/createAppSlice';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { TrackPlus } from '../playlist/playlistSlice';
+import { TrackPlus } from '../builder/builderSlice';
 import { SEEDS_IDLE_PHRASE, SEEDS_MAX_PHRASE } from '@/lib/constants';
 
 export interface SeedsSliceState {

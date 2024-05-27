@@ -9,16 +9,16 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from '@/components/ui/input';
 import { getRecommendations } from '@/actions/tracks';
 import { RecommendationsData, Track } from '@/types/tracks';
-import { selectStatus, selectPlaylistTracks } from '@/lib/features/playlist/playlistSlice';
+import { selectStatus, selectPlaylistTracks } from '@/lib/features/builder/builderSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import styles from './Counter.module.css';
-import { TrackPlus } from '@/lib/features/playlist/playlistSlice';
-import SeedTracks from '@/app/components/seed-tracks';
+import { TrackPlus } from '@/lib/features/builder/builderSlice';
+import SeedTracks from '@/app/components/recommendations/components/seed-tracks';
 import { addSeed, selectSeeds } from '@/lib/features/seeds/seedsSlice';
-import { DataTable } from './recommendation-table/data-table';
+import { DataTable } from '../../../../../../components/data-table/data-table';
 import { useState } from 'react';
-import { columns } from './recommendation-table/components/columns';
-import { clearTracks, selectRecTracks, setSearchTerm, setTracks } from '@/lib/features/recs/byNameSlice';
+import { columns } from '../../recs-columns';
+import { clearTracks, selectRecTracks, setSearchTerm, setTracks } from '@/lib/features/recommendations/byNameSlice';
 
 const inputFormSchema = z.object({
   seedGenres: z.array(z.string()).optional(),
@@ -45,8 +45,8 @@ const defaultValues: Partial<RecommendationInputFormValues> = {
 export function AdvancedSearchForm() {
   console.log('InputsForm rerendered');
   const dispatch = useAppDispatch();
-  const [data, setData] = useState<RecommendationsData[]>();
   const seedTracks = useAppSelector(selectSeeds);
+  // TODO: persist advanced search inputs in state
 
   const form = useForm<RecommendationInputFormValues>({
     resolver: zodResolver(inputFormSchema),

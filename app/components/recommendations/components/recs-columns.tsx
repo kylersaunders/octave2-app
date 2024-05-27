@@ -2,10 +2,10 @@
 
 import { ColumnDef } from '@tanstack/react-table';
 
-import { DataTableColumnHeader } from './data-table-column-header';
+import { DataTableColumnHeader } from '../../../../components/data-table/components/data-table-column-header';
 import { RecommendationsData } from '@/types/tracks';
 import { ButtonAddToPlaylist, ButtonAddToSeeds } from './row-button';
-import { TrackPlus } from '@/lib/features/playlist/playlistSlice';
+import { TrackPlus } from '@/lib/features/builder/builderSlice';
 
 export function millisecondsToMMSS(ms: number) {
   const minutes = Math.floor(ms / 60000);

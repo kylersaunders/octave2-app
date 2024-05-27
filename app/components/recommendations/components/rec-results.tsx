@@ -1,8 +1,8 @@
 'use client';
 
-import { selectRecTracks } from '@/lib/features/recs/byNameSlice';
-import { columns } from './recommendation-table/components/columns';
-import { DataTable } from './recommendation-table/data-table';
+import { selectRecTracks } from '@/lib/features/recommendations/byNameSlice';
+import { columns } from './recs-columns';
+import { DataTable } from '../../../../components/data-table/data-table';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 
 export default function ResultsTable() {

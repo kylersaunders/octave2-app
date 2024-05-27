@@ -5,11 +5,11 @@ import { Table } from '@tanstack/react-table';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { DataTableViewOptions } from '@/app/components/recommendation-table/components/data-table-view-options';
+import { DataTableViewOptions } from '@/components/data-table/components/data-table-view-options';
 
 // import { priorities, statuses } from '../data/data';
 import { DataTableFacetedFilter } from './data-table-faceted-filter';
-import SeedTracks from '../../seed-tracks';
+import SeedTracks from '../../../app/components/recommendations/components/seed-tracks';
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;

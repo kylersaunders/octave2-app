@@ -1,13 +1,15 @@
 'use client';
 
-import { setTracks, selectSearchTerm, setSearchTerm } from '@/lib/features/recs/byNameSlice';
+import { setTracks, selectSearchTerm, setSearchTerm } from '@/lib/features/recommendations/byNameSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { searchTrackByAlbum, searchTrackByArtist, searchTrackByName } from '@/actions/tracks';
 import { debounce } from 'lodash';
 import { Card } from '@/components/ui/card';
 import { useEffect } from 'react';
+import { Track } from '@/types/tracks';
 
 export default function SearchTracks() {
+  // TODO: don't re-search on tab back (unless it includes advanced search)
   const dispatch = useAppDispatch();
   const searchTerm = useAppSelector(selectSearchTerm);
 
@@ -18,9 +20,19 @@ export default function SearchTracks() {
   const debouncedSearch = debounce(async (trackName: string) => {
     // run searches by name, artist, and album at the same time
     const data = await Promise.all([searchTrackByName(trackName), searchTrackByArtist(trackName), searchTrackByAlbum(trackName)]);
-    const flatData = data.flat();
 
-    dispatch(setTracks(flatData));
+    // filter flatData so it only contains unique tracks based on track.id
+    const uniqueTracks: Track[] = [];
+
+    data.forEach((d) => {
+      d.forEach((t: Track) => {
+        if (uniqueTracks.findIndex((ut) => ut.id === t.id) === -1) {
+          uniqueTracks.push(t);
+        }
+      });
+    });
+
+    dispatch(setTracks(uniqueTracks));
   }, 500);
 
   useEffect(() => {

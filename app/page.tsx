@@ -1,24 +1,31 @@
-import SearchTracks from './components/search-tracks';
-import { Card } from '@/components/ui/card';
-import ResultsTable from './components/results';
-import AdvancedSearch from './components/advanced-search/advanced-search';
-import ViewMyPlaylists from './components/view-my-playlists/view-my-playlists';
-import PlaylistBuilder from './components/playlist-builder/playlist-builder';
+import ViewMyPlaylists from './components/playlists/view-my-playlists';
+import PlaylistBuilder from './components/builder/playlist-builder';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import Recommendations from './components/recommendations/recommendations';
 
 export default function Home() {
   console.log('Home rendered');
   return (
     <>
-      <div className='flex flex-row justify-between items-center px-4'>
-        <div className='w-[10vw]'></div>
-        <div className='flex flex-row justify-center items-center space-x-4 px-8'>
+      <Tabs defaultValue='recommendations' className='mx-8'>
+        <TabsList className='grid grid-cols-3'>
+          <TabsTrigger value='recommendations'>Get Recommendations</TabsTrigger>
+          <TabsTrigger value='playlists'>My Playlists</TabsTrigger>
+          <TabsTrigger value='builder'>Build New Playlist</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value='recommendations'>
+          <Recommendations />
+        </TabsContent>
+
+        <TabsContent value='playlists'>
           <ViewMyPlaylists />
-          <SearchTracks />
-          <AdvancedSearch />
-        </div>
-        <PlaylistBuilder />
-      </div>
-      <ResultsTable />
+        </TabsContent>
+
+        <TabsContent value='builder'>
+          <PlaylistBuilder />
+        </TabsContent>
+      </Tabs>
     </>
   );
 }

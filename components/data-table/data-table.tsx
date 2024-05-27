@@ -20,17 +20,18 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 
 import { DataTablePagination } from './components/data-table-pagination';
 import { DataTableToolbar } from './components/data-table-toolbar';
-import { DataTableRowActions } from './components/data-table-row-actions';
-import { Open } from '@/types/utils';
-import { TrackPlus } from '@/lib/features/playlist/playlistSlice';
-import { Card } from '@/components/ui/card';
+// import { DataTableRowActions } from '../../app/components/recommendations/components/recs-row-actions';
+// import { Open } from '@/types/utils';
+// import { TrackPlus } from '@/lib/features/builder/builderSlice';
+// import { Card } from '@/components/ui/card';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  callbackOnClick?: (data: TData) => void;
 }
 
-export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, callbackOnClick }: DataTableProps<TData, TValue>) {
   console.log('DataTable rendered');
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
@@ -81,7 +82,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => {
-                const { id } = row.original as TrackPlus;
+                // const { id } = row.original as TrackPlus;
                 return (
                   <TableRow
                     key={'row' + row.id}
