@@ -1,3 +1,4 @@
+'use server';
 // export const userService = {
 //     // a service to get the user's id from a login token
 //     getUserId: async (token: string) => {

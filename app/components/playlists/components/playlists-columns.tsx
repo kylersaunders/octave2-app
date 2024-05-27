@@ -6,6 +6,7 @@ import { DataTableColumnHeader } from '../../../../components/data-table/compone
 import { RecommendationsData } from '@/types/tracks';
 // import { ButtonAddToPlaylist, ButtonAddToSeeds } from './row-button';
 import { TrackPlus } from '@/lib/features/builder/builderSlice';
+import { PlaylistsRowActions } from './playlists-row-actions';
 
 export function millisecondsToMMSS(ms: number) {
   const minutes = Math.floor(ms / 60000);
@@ -68,5 +69,10 @@ export const playlistColumns: ColumnDef<RecommendationsData | TrackPlus>[] = [
     cell: ({ row }) => <div className='w-[80px]'>{row.getValue('tracksTotal')}</div>,
     enableSorting: true,
     enableHiding: true,
+  },
+  // dropdown dots
+  {
+    id: 'actions',
+    cell: ({ row }) => <PlaylistsRowActions row={row} />,
   },
 ];

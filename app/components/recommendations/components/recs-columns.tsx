@@ -19,29 +19,6 @@ export const summarizeArtistsMaxN = (artists: { name: string }[], n: number) => 
 };
 
 export const columns: ColumnDef<RecommendationsData | TrackPlus>[] = [
-  // {
-  //   id: 'select',
-  //   header: ({ table }) => (
-  //     <Checkbox
-  //       checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate')}
-  //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-  //       aria-label='Select all'
-  //       className='translate-y-[2px]'
-  //     />
-  //   ),
-  //   cell: ({ row }) => (
-  //     <Checkbox checked={row.getIsSelected()} onCheckedChange={(value) => row.toggleSelected(!!value)} aria-label='Select row' className='translate-y-[2px]' />
-  //   ),
-  //   enableSorting: false,
-  //   enableHiding: false,
-  // },
-  // {
-  //   accessorKey: 'id',
-  //   header: ({ column }) => <DataTableColumnHeader column={column} title='Track Id' />,
-  //   cell: ({ row }) => <div className='w-[80px]'>{row.getValue('id')}</div>,
-  //   enableSorting: false,
-  //   enableHiding: false,
-  // },
   {
     accessorKey: 'preview_url',
     header: ({ column }) => <div>{''}</div>,

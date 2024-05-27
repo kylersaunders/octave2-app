@@ -5,6 +5,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { addTracksToPlaylist, createPlaylist, getTempo } from '@/actions/tracks';
 import { Track } from '@/types/tracks';
 import { Playlist } from '@/types/playlists';
+import { remove } from 'lodash';
 
 export interface TrackPlus extends Track {
   tempo?: number;
@@ -36,7 +37,11 @@ export const playlistSlice = createAppSlice({
       });
       state.playlists = [...state.playlists, ...(newPlaylists || [])];
     }),
+    removePlaylist: create.reducer((state, action: PayloadAction<string>) => {
+      state.playlists = state.playlists.filter((playlist) => playlist.id !== action.payload);
+    }),
   }),
+
   // You can define your selectors here. These selectors receive the slice
   // state as their first argument.
   selectors: {
@@ -46,7 +51,7 @@ export const playlistSlice = createAppSlice({
 });
 
 // Action creators are generated for each case reducer function.
-export const { addPlaylists } = playlistSlice.actions;
+export const { addPlaylists, removePlaylist } = playlistSlice.actions;
 
 // Selectors returned by `slice.selectors` take the root state as their first argument.
 export const { selectPlaylists, selectStatus } = playlistSlice.selectors;
