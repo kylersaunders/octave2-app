@@ -71,8 +71,8 @@ export const playlistColumns: ColumnDef<RecommendationsData | TrackPlus>[] = [
     enableHiding: true,
   },
   // dropdown dots
-  {
-    id: 'actions',
-    cell: ({ row }) => <PlaylistsRowActions row={row} />,
-  },
+  // {
+  //   id: 'actions',
+  //   cell: ({ row }) => <PlaylistsRowActions row={row} />,
+  // },
 ];

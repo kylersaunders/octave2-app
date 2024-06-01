@@ -7,11 +7,12 @@ import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { Playlist, UsersPlaylists } from '@/types/playlists';
 import { useCallback, useEffect, useState } from 'react';
 import { playlistColumns } from './components/playlists-columns';
+import SelectedPlaylist from './selected-playlist/selected-playlist';
 
 export default function ViewMyPlaylists() {
   const dispatch = useAppDispatch();
   const playlists = useAppSelector(selectPlaylists);
-  const [selectedPlaylist, setSelectedPlaylist] = useState<string>();
+  const [selectedPlaylistId, setSelectedPlaylistId] = useState<string>();
 
   const fetchPlaylists = useCallback(async () => {
     try {
@@ -34,8 +35,8 @@ export default function ViewMyPlaylists() {
     fetchPlaylists();
   }, [fetchPlaylists]);
 
-  function selectPlaylist(playlist: Playlist) {
-    setSelectedPlaylist(playlist.id);
+  function selectPlaylist(row: any) {
+    setSelectedPlaylistId(row.id);
   }
 
   // renders a datatable w/data of playlists and columns of playlists-cols
@@ -44,11 +45,8 @@ export default function ViewMyPlaylists() {
   // no need to persist this past local state
   // could cache this data in local storage for performance
 
-  if (selectedPlaylist) {
-    const selectedPlaylistColumns: { [key: string]: any }[] = [];
-    const selectedPlaylistData = [];
-    // @ts-ignore
-    return <DataTable data={selectedPlaylist} columns={selectedPlaylistColumns} callbackOnClick={() => {}} />;
+  if (selectedPlaylistId) {
+    return <SelectedPlaylist id={selectedPlaylistId} back={setSelectedPlaylistId} />;
   }
   if (playlists.length) {
     // @ts-ignore

@@ -1,13 +1,13 @@
 import { createAppSlice } from '@/lib/createAppSlice';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { TrackPlus } from '../builder/builderSlice';
-import { SEEDS_IDLE_PHRASE, SEEDS_MAX_PHRASE } from '@/lib/constants';
 import { RecommendationsData } from '@/types/tracks';
+import { Status } from '@/types/common';
 
 export interface RecsByNameSliceState {
   tracks: Array<TrackPlus | RecommendationsData | null>;
   searchTerm?: string;
-  status: typeof SEEDS_IDLE_PHRASE | 'busy' | 'error' | 'success';
+  status: Status;
 }
 
 const initialState: RecsByNameSliceState = {
@@ -29,13 +29,17 @@ export const recsByNameSlice = createAppSlice({
     setSearchTerm: create.reducer((state, action: PayloadAction<string>) => {
       state.searchTerm = action.payload;
     }),
+    setRecStatus: create.reducer((state, action: PayloadAction<Status>) => {
+      state.status = action.payload;
+    }),
   }),
   selectors: {
     selectRecTracks: (state) => state.tracks,
     selectTracksStatus: (state) => state.status,
     selectSearchTerm: (state) => state.searchTerm,
+    selectRecStatus: (state) => state.status,
   },
 });
 
-export const { setTracks, clearTracks, setSearchTerm } = recsByNameSlice.actions;
-export const { selectRecTracks, selectTracksStatus, selectSearchTerm } = recsByNameSlice.selectors;
+export const { setTracks, clearTracks, setSearchTerm, setRecStatus } = recsByNameSlice.actions;
+export const { selectRecTracks, selectTracksStatus, selectSearchTerm, selectRecStatus } = recsByNameSlice.selectors;

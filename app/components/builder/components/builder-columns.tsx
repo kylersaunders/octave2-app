@@ -4,7 +4,6 @@ import { ColumnDef } from '@tanstack/react-table';
 
 import { DataTableColumnHeader } from '../../../../components/data-table/components/data-table-column-header';
 import { RecommendationsData } from '@/types/tracks';
-import { ButtonAddToPlaylist, ButtonAddToSeeds } from './row-button';
 import { TrackPlus } from '@/lib/features/builder/builderSlice';
 
 export function millisecondsToMMSS(ms: number) {
@@ -18,7 +17,7 @@ export const summarizeArtistsMaxN = (artists: { name: string }[], n: number) => 
   return names.slice(0, n).join(', ') + (names.length > n ? '...' : '');
 };
 
-export const columns: ColumnDef<RecommendationsData | TrackPlus>[] = [
+export const builderColumns: ColumnDef<RecommendationsData | TrackPlus>[] = [
   {
     accessorKey: 'preview_url',
     header: ({ column }) => <div>{''}</div>,
@@ -30,14 +29,6 @@ export const columns: ColumnDef<RecommendationsData | TrackPlus>[] = [
         </audio>
       );
     },
-  },
-  {
-    id: 'addToSeeds',
-    cell: ({ row }) => <ButtonAddToSeeds row={row} />,
-  },
-  {
-    id: 'addToPlaylist',
-    cell: ({ row }) => <ButtonAddToPlaylist row={row} />,
   },
   {
     accessorKey: 'duration_ms',

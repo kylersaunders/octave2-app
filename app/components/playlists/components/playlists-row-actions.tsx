@@ -17,9 +17,6 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { addTrack, selectStatus, selectPlaylistTracks } from '@/lib/features/builder/builderSlice';
-
-import { addSeed } from '@/lib/features/seeds/seedsSlice';
 
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { Open } from '@/types/utils';
@@ -28,18 +25,19 @@ import { deletePlaylist } from '@/actions/playlists';
 import { removePlaylist } from '@/lib/features/playlists/playlistsSlice';
 
 interface PlaylistsRowActionsProps<TData> {
-  row: Row<TData>;
-  cancel?: () => void;
+  id: string;
+  cancel?: (e: any) => void;
 }
 
-function DeleteConfirmationActions({ row, cancel }: PlaylistsRowActionsProps<any>) {
+function DeleteConfirmationActions({ id, cancel }: PlaylistsRowActionsProps<any>) {
   const dispatch = useAppDispatch();
-  async function handleDelete() {
+  async function handleDelete(e: any) {
+    e.preventDefault();
     // TODO: error handling
-    await deletePlaylist(row.original.id);
+    await deletePlaylist(id);
     // TODO: debug this && figure out if server actions are working
-    dispatch(removePlaylist(row.original.id));
-    if (cancel) cancel();
+    dispatch(removePlaylist(id));
+    if (cancel) cancel(e);
   }
 
   return (
@@ -54,15 +52,27 @@ function DeleteConfirmationActions({ row, cancel }: PlaylistsRowActionsProps<any
   );
 }
 
-function Delete({ row }: PlaylistsRowActionsProps<any>) {
+function Delete({ id }: PlaylistsRowActionsProps<any>) {
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
 
   return (
     <>
       {deleteConfirmation ? (
-        <DeleteConfirmationActions row={row} cancel={() => setDeleteConfirmation(false)} />
+        <DeleteConfirmationActions
+          id={id}
+          cancel={(e: any) => {
+            e.preventDefault();
+            setDeleteConfirmation(false);
+          }}
+        />
       ) : (
-        <Button variant='ghost' onClick={() => setDeleteConfirmation(true)}>
+        <Button
+          variant='ghost'
+          onClick={(e: any) => {
+            e.preventDefault();
+            setDeleteConfirmation(true);
+          }}
+        >
           Delete Playlist
         </Button>
       )}
@@ -74,10 +84,7 @@ function Edit() {
   return <Button variant='ghost'>Edit</Button>;
 }
 
-export function PlaylistsRowActions<TData>({ row }: PlaylistsRowActionsProps<TData>) {
-  const dispatch = useAppDispatch();
-  const tracks = useAppSelector(selectPlaylistTracks);
-
+export function PlaylistsRowActions<TData>({ id }: PlaylistsRowActionsProps<TData>) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -87,7 +94,7 @@ export function PlaylistsRowActions<TData>({ row }: PlaylistsRowActionsProps<TDa
       </DropdownMenuTrigger>
       <DropdownMenuContent align='start' className='w-[160px]'>
         <Edit />
-        <Delete row={row} />
+        <Delete id={id} />
       </DropdownMenuContent>
     </DropdownMenu>
   );

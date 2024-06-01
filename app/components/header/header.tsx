@@ -1,3 +1,4 @@
+import { ModeToggle } from '@/components/mode-toggle';
 import { Card } from '@/components/ui/card';
 import {
   DropdownMenu,
@@ -16,27 +17,30 @@ export default function Header({ user }: { user: User }) {
         <a href='/'>
           <h1 className='text-2xl font-bold'>Octave</h1>
         </a>
-        {user ? (
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <>Welcome {user.display_name}</>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              {/* <DropdownMenuLabel>Options</DropdownMenuLabel>
+        <div className='flex items-center justify-center space-x-4'>
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <>Welcome {user.display_name}</>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                {/* <DropdownMenuLabel>Options</DropdownMenuLabel>
               <DropdownMenuSeparator /> */}
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Billing</DropdownMenuItem>
-              <DropdownMenuItem>Team</DropdownMenuItem>
-              <DropdownMenuItem>Subscription</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Log out</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        ) : (
-          <div className='p-2'>
-            <h2>Not logged in</h2>
-          </div>
-        )}
+                <DropdownMenuItem>Profile</DropdownMenuItem>
+                <DropdownMenuItem>Billing</DropdownMenuItem>
+                <DropdownMenuItem>Team</DropdownMenuItem>
+                <DropdownMenuItem>Subscription</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>Log out</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <div className='p-2'>
+              <h2>Not logged in</h2>
+            </div>
+          )}
+          <ModeToggle />
+        </div>
       </Card>
     </header>
   );

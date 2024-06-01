@@ -18,7 +18,8 @@ import { addSeed, selectSeeds } from '@/lib/features/seeds/seedsSlice';
 import { DataTable } from '../../../../../../components/data-table/data-table';
 import { useState } from 'react';
 import { columns } from '../../recs-columns';
-import { clearTracks, selectRecTracks, setSearchTerm, setTracks } from '@/lib/features/recommendations/byNameSlice';
+import { clearTracks, selectRecStatus, selectRecTracks, setRecStatus, setSearchTerm, setTracks } from '@/lib/features/recommendations/byNameSlice';
+import { IDLE, LOADING } from '@/lib/constants';
 
 const inputFormSchema = z.object({
   seedGenres: z.array(z.string()).optional(),
@@ -81,10 +82,13 @@ export function AdvancedSearchForm() {
       recommendationsParamsObject.maxTempo = Math.min(300, parseInt(data.maxTempo || '300') + 1).toString();
     }
 
+    dispatch(setRecStatus(LOADING));
+
     const tracks = await getRecommendations(recommendationsParamsObject);
 
     // need to get tempo
 
+    dispatch(setRecStatus(IDLE));
     dispatch(setTracks(tracks.tracks));
   }
 

@@ -20,18 +20,15 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 
 import { DataTablePagination } from './components/data-table-pagination';
 import { DataTableToolbar } from './components/data-table-toolbar';
-// import { DataTableRowActions } from '../../app/components/recommendations/components/recs-row-actions';
-// import { Open } from '@/types/utils';
-// import { TrackPlus } from '@/lib/features/builder/builderSlice';
-// import { Card } from '@/components/ui/card';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   callbackOnClick?: (data: TData) => void;
+  CustomSection?: () => JSX.Element;
 }
 
-export function DataTable<TData, TValue>({ columns, data, callbackOnClick }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, callbackOnClick, CustomSection }: DataTableProps<TData, TValue>) {
   console.log('DataTable rendered');
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
@@ -63,7 +60,10 @@ export function DataTable<TData, TValue>({ columns, data, callbackOnClick }: Dat
   return (
     <div className='space-y-4 p-4'>
       <DataTableToolbar table={table} />
-      <DataTablePagination table={table} />
+      <div className='flex items-center justify-between px-2'>
+        {CustomSection && <>{CustomSection()}</>}
+        <DataTablePagination table={table} />
+      </div>
       <div className='rounded-md border'>
         <Table>
           <TableHeader>
@@ -82,34 +82,17 @@ export function DataTable<TData, TValue>({ columns, data, callbackOnClick }: Dat
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => {
-                // const { id } = row.original as TrackPlus;
                 return (
                   <TableRow
                     key={'row' + row.id}
                     data-state={row.getIsSelected() && 'selected'}
-                    // onClick={() => {
-                    //   const { id } = row.original as TrackPlus;
-                    //   // @ts-ignore
-                    //   // setOpen((prev: Open) => (prev ? { ...prev, [id]: !prev[id] } : { [id]: true }));
-                    //   // iterate through every key in open and set all to false
-                    //   // then set the current key to true
-                    //   // @ts-ignore
-                    //   setOpen((prev: Open) => {
-                    //     const newOpen: Open = {};
-                    //     for (const key in prev) {
-                    //       newOpen[key] = false;
-                    //     }
-                    //     newOpen[id] = true;
-                    //     return newOpen;
-                    //   });
-                    // }}
+                    onClick={(e: any) => {
+                      if (callbackOnClick) callbackOnClick(row.original);
+                    }}
                   >
                     {row.getVisibleCells().map((cell) => (
-                      // <DataTableRowActions key={'actions' + row.id} row={row}>
                       <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
-                      // </DataTableRowActions>
                     ))}
-                    {/* <DataTableRowActions row={row} open={open || {}} setOpen={setOpen} id={id} /> */}
                   </TableRow>
                 );
               })

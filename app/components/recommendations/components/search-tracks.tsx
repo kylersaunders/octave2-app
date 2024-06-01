@@ -1,12 +1,13 @@
 'use client';
 
-import { setTracks, selectSearchTerm, setSearchTerm } from '@/lib/features/recommendations/byNameSlice';
+import { setTracks, selectSearchTerm, setSearchTerm, setRecStatus, selectRecTracks } from '@/lib/features/recommendations/byNameSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { searchTrackByAlbum, searchTrackByArtist, searchTrackByName } from '@/actions/tracks';
 import { debounce } from 'lodash';
 import { Card } from '@/components/ui/card';
 import { useEffect } from 'react';
 import { Track } from '@/types/tracks';
+import { IDLE, LOADING } from '@/lib/constants';
 
 export default function SearchTracks() {
   // TODO: don't re-search on tab back (unless it includes advanced search)
@@ -32,17 +33,21 @@ export default function SearchTracks() {
       });
     });
 
+    dispatch(setRecStatus(IDLE));
     dispatch(setTracks(uniqueTracks));
   }, 500);
 
   useEffect(() => {
     if (searchTerm) {
+      // TODO: adjust this conditional to be a state that changes on new search term instead of result length
+      // if (true) dispatch(setRecStatus(LOADING));
       debouncedSearch(searchTerm);
     }
     return () => {
+      // dispatch(setRecStatus(IDLE));
       debouncedSearch.cancel();
     };
-  }, [searchTerm, debouncedSearch]);
+  }, [searchTerm, debouncedSearch, dispatch]);
 
   return (
     <Card className='m-4 p-4'>

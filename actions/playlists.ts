@@ -29,3 +29,16 @@ export const deletePlaylist = async (playlistId: string) => {
     throw new Error('delete_playlist_failed');
   }
 };
+
+export const getPlaylistTracks = async (playlistId: string) => {
+  const accessToken = await getSpotifyAccessToken();
+  const response = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
+    headers: {
+      Authorization: 'Bearer ' + accessToken,
+    },
+  });
+  if (!response.ok) {
+    throw new Error('playlist_tracks_failed');
+  }
+  return await response.json();
+};
