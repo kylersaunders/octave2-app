@@ -1,16 +1,9 @@
 import { ModeToggle } from '@/components/mode-toggle';
-import { Card } from '@/components/ui/card';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { User } from '@/types/user';
 
-export default function Header({ user }: { user: User }) {
+import { UserButton } from '@clerk/nextjs';
+
+export default function Header({ user }: { user?: User }) {
   return (
     <header className='sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
       <div className='flex items-center justify-between p-4'>
@@ -18,27 +11,7 @@ export default function Header({ user }: { user: User }) {
           <h1 className='text-2xl font-bold'>Octave</h1>
         </a>
         <div className='flex items-center justify-center space-x-4'>
-          {user ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <>Welcome {user.display_name}</>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                {/* <DropdownMenuLabel>Options</DropdownMenuLabel>
-              <DropdownMenuSeparator /> */}
-                <DropdownMenuItem>Profile</DropdownMenuItem>
-                <DropdownMenuItem>Billing</DropdownMenuItem>
-                <DropdownMenuItem>Team</DropdownMenuItem>
-                <DropdownMenuItem>Subscription</DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>Log out</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : (
-            <div className='p-2'>
-              <h2>Not logged in</h2>
-            </div>
-          )}
+          <UserButton />
           <ModeToggle />
         </div>
       </div>

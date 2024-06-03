@@ -41,18 +41,23 @@ export const getRecommendations = async ({
 
   console.log('***', recommendationsBody.toString());
 
-  const accessToken = await getSpotifyAccessToken();
-  const response = await fetch('https://api.spotify.com/v1/recommendations?' + recommendationsBody.toString(), {
-    headers: {
-      Authorization: 'Bearer ' + accessToken,
-    },
-  });
-  if (!response.ok) {
-    throw new Error('recommendations_failed');
+  try {
+    const accessToken = await getSpotifyAccessToken();
+    const response = await fetch('https://api.spotify.com/v1/recommendations?' + recommendationsBody.toString(), {
+      headers: {
+        Authorization: 'Bearer ' + accessToken,
+      },
+    });
+    if (!response.ok) {
+      throw new Error('recommendations_failed');
+    }
+    const res = await response.json();
+    if (!res.tracks.length) console.log('res', res);
+    return res;
+  } catch (e) {
+    console.error('error', e);
+    return { tracks: [] };
   }
-  const res = await response.json();
-  if (!res.tracks.length) console.log('res', res);
-  return res;
 };
 
 export const getTempo = async (trackId: string) => {
@@ -118,43 +123,58 @@ export const addTracksToPlaylist = async ({ playlistId, trackIdList }: { playlis
 };
 
 export const searchTrackByName = async (trackName: string) => {
-  const accessToken = await getSpotifyAccessToken();
-  const response = await fetch(`https://api.spotify.com/v1/search?q=track%3D${trackName}&type=track`, {
-    headers: {
-      Authorization: 'Bearer ' + accessToken,
-    },
-  });
-  if (!response.ok) {
-    throw new Error('search_tracks_failed');
+  try {
+    const accessToken = await getSpotifyAccessToken();
+    const response = await fetch(`https://api.spotify.com/v1/search?q=track%3D${trackName}&type=track`, {
+      headers: {
+        Authorization: 'Bearer ' + accessToken,
+      },
+    });
+    if (!response.ok) {
+      throw new Error('search_tracks_failed');
+    }
+    const data = await response.json();
+    return data.tracks.items;
+  } catch (e) {
+    console.error('error', e);
+    return [];
   }
-  const data = await response.json();
-  return data.tracks.items;
 };
 
 export const searchTrackByArtist = async (artistName: string) => {
-  const accessToken = await getSpotifyAccessToken();
-  const response = await fetch(`https://api.spotify.com/v1/search?q=artist%3D${artistName}&type=track`, {
-    headers: {
-      Authorization: 'Bearer ' + accessToken,
-    },
-  });
-  if (!response.ok) {
-    throw new Error('search_tracks_failed');
+  try {
+    const accessToken = await getSpotifyAccessToken();
+    const response = await fetch(`https://api.spotify.com/v1/search?q=artist%3D${artistName}&type=track`, {
+      headers: {
+        Authorization: 'Bearer ' + accessToken,
+      },
+    });
+    if (!response.ok) {
+      throw new Error('search_tracks_failed');
+    }
+    const data = await response.json();
+    return data.tracks.items;
+  } catch (e) {
+    console.error('error', e);
+    return [];
   }
-  const data = await response.json();
-  return data.tracks.items;
 };
 
 export const searchTrackByAlbum = async (albumName: string) => {
-  const accessToken = await getSpotifyAccessToken();
-  const response = await fetch(`https://api.spotify.com/v1/search?q=album%3D${albumName}&type=track`, {
-    headers: {
-      Authorization: 'Bearer ' + accessToken,
-    },
-  });
-  if (!response.ok) {
-    throw new Error('search_tracks_failed');
+  try {
+    const accessToken = await getSpotifyAccessToken();
+    const response = await fetch(`https://api.spotify.com/v1/search?q=album%3D${albumName}&type=track`, {
+      headers: {
+        Authorization: 'Bearer ' + accessToken,
+      },
+    });
+    if (!response.ok) {
+      throw new Error('search_tracks_failed');
+    }
+    const data = await response.json();
+    return data.tracks.items;
+  } catch (e) {
+    console.error('error', e);
+    return [];
   }
-  const data = await response.json();
-  return data.tracks.items;
 };

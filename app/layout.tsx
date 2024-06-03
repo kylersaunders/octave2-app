@@ -1,15 +1,13 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { getSpotifyProfile } from '@/actions/profile';
-import { User } from '@/types/user';
 import { StoreProvider } from './StoreProvider';
-import { Card } from '@/components/ui/card';
 import Header from './components/header/header';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
-import { ThemeProviderProps } from 'next-themes/dist/types';
 import { ThemeSwitcher } from '@/components/theme-switcher';
+import { ClerkProvider, SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
+import LoginWithSpotify from './components/spotify-login';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -24,20 +22,31 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   console.log('RootLayout rendered');
-  const user: User = await getSpotifyProfile();
   return (
-    <StoreProvider>
-      <html lang='en'>
-        <body className='space-y-2'>
-          <NextThemesProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
-            <TooltipProvider delayDuration={0}>
-              <Header user={user} />
-              {children}
-            </TooltipProvider>
-            <ThemeSwitcher />
-          </NextThemesProvider>
-        </body>
-      </html>
-    </StoreProvider>
+    <ClerkProvider>
+      <SignedOut>
+        <html lang='en'>
+          <body className='h-[33vh] flex items-center justify-center'>
+            <SignInButton />
+          </body>
+        </html>
+      </SignedOut>
+      <SignedIn>
+        <StoreProvider>
+          <html lang='en'>
+            <body className='space-y-2'>
+              <NextThemesProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
+                <TooltipProvider delayDuration={0}>
+                  <Header />
+                  {children}
+                </TooltipProvider>
+                <ThemeSwitcher />
+                <LoginWithSpotify />
+              </NextThemesProvider>
+            </body>
+          </html>
+        </StoreProvider>
+      </SignedIn>
+    </ClerkProvider>
   );
 }
