@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 
 export const dynamic = 'force-dynamic'; // defaults to auto
 
-export async function GET(request?: NextRequest, response?: any) {
+export async function GET(request: NextRequest, response?: any) {
   const { userId } = auth();
   const code = request?.nextUrl.searchParams.get('code');
   const state = request?.nextUrl.searchParams.get('state');
