@@ -5,7 +5,6 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { addTracksToPlaylist, createPlaylist, getTempo } from '@/actions/tracks';
 import { Track } from '@/types/tracks';
 import { Playlist } from '@/types/playlists';
-import { remove } from 'lodash';
 
 export interface TrackPlus extends Track {
   tempo?: number;
