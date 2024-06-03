@@ -8,6 +8,9 @@ import { type NextRequest } from 'next/server';
 
 export async function GET(request: NextRequest, response?: any) {
   const { userId } = auth();
+  if (userId === undefined || userId === null) {
+    throw new Error('user_id_not_defined');
+  }
   const userState = generateRandomUserState(16);
   kv.set(userId + '_state', userState);
 

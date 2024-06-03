@@ -7,6 +7,9 @@ export const dynamic = 'force-dynamic'; // defaults to auto
 
 export async function GET(request: NextRequest, response?: any) {
   const { userId } = auth();
+  if (userId === undefined || userId === null) {
+    throw new Error('user_id_not_defined');
+  }
   const code = request?.nextUrl.searchParams.get('code');
   const state = request?.nextUrl.searchParams.get('state');
   const userState = await kv.get(userId + '_state');
@@ -53,12 +56,12 @@ export async function GET(request: NextRequest, response?: any) {
   const accessToken = tokenData.access_token;
   const refreshToken = tokenData.refresh_token;
   const expiresIn = tokenData.expires_in;
+  const expiresAt = new Date().getTime() + expiresIn * 1000;
 
-  if (!accessToken || !refreshToken || !expiresIn) {
+  if (!accessToken || !refreshToken || !expiresAt) {
     redirect('/#spotify-auth-failed');
   }
 
-  const expiresAt = new Date().getTime() + expiresIn * 1000;
   kv.set(userId + '_expires_at', expiresAt);
   kv.set(userId + '_access_token', accessToken);
   kv.set(userId + '_refresh_token', refreshToken);

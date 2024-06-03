@@ -7,6 +7,9 @@ import { auth, currentUser } from '@clerk/nextjs/server';
 
 export const checkSpotifyAuth = async () => {
   const { userId } = auth();
+  if (userId === undefined || userId === null) {
+    throw new Error('user_id_not_defined');
+  }
   const token: string | null = await kv.get(userId + '_access_token');
   if (token === null || token === undefined) {
     console.log('no token', token);
@@ -43,6 +46,9 @@ export const getSpotifyAccessToken = async () => {
   // const expiresAt: string | null = await kv.get('userId_expires_at');
   const session = auth();
   const { userId } = session;
+  if (userId === undefined || userId === null) {
+    throw new Error('user_id_not_defined');
+  }
 
   const expiresAt: string | null = await kv.get(userId + '_expires_at');
 
@@ -61,12 +67,17 @@ export const getSpotifyAccessToken = async () => {
   if (access_token === null) {
     throw new Error('access_token_not_found');
   }
+
+  console.log('***DEBUG***', userId, access_token);
   return access_token;
 };
 
 // to use a refresh token to update all tokens/expiries
 export const updateSpotifyTokens: (refresh_token: string) => Promise<void> = async (refresh_token) => {
   const { userId } = auth();
+  if (userId === undefined || userId === null) {
+    throw new Error('user_id_not_defined');
+  }
   const refreshTokenBody = new URLSearchParams();
   refreshTokenBody.append('grant_type', 'refresh_token');
   refreshTokenBody.append('refresh_token', refresh_token);
