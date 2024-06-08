@@ -11,3 +11,9 @@ export const generateRandomUserState = (length: number): string => {
   kv.set('app_state', state);
   return state;
 };
+
+// convert new Date().getTime() + expiresIn * 1000 to readable local time
+export const convertExpiresAt = (expiresAt: string | null): string => {
+  if (!expiresAt) throw new Error('expiresAt is required');
+  return new Date(expiresAt).toLocaleString();
+};
