@@ -23,6 +23,7 @@ export const getSpotifyAccessToken = async () => {
       await fetch('/api/spotify/login');
       access_token = await kv.get(userId + '_access_token');
     } else {
+      console.log('*** UPDATE MADE ***');
       access_token = await updateSpotifyTokens(refresh_token);
     }
   }
@@ -32,7 +33,7 @@ export const getSpotifyAccessToken = async () => {
   }
 
   console.log(
-    '***DEBUG***',
+    '*** DEBUG ***',
     userId?.slice(-7),
     user?.firstName,
     user?.lastName,
