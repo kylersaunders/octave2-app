@@ -1,5 +1,6 @@
 'use server';
 
+import { RedirectType, redirect } from 'next/navigation';
 import { getSpotifyAccessToken } from './spotify/tokens';
 
 export interface Recommendations {
@@ -42,7 +43,12 @@ export const getRecommendations = async ({
   console.log('***', recommendationsBody.toString());
 
   try {
-    const accessToken = await getSpotifyAccessToken();
+    const { accessToken, expiresAt } = await getSpotifyAccessToken();
+    if (!accessToken || expiresAt <= new Date().getTime().toString()) {
+      const domain = process.env.VERCEL_ENV === 'production' ? 'https://' + process.env.VERCEL_PROJECT_PRODUCTION_URL : 'http://' + process.env.HOSTNAME;
+
+      redirect(domain + '/api/spotify/login', RedirectType.replace);
+    }
     const response = await fetch('https://api.spotify.com/v1/recommendations?' + recommendationsBody.toString(), {
       headers: {
         Authorization: 'Bearer ' + accessToken,
@@ -61,7 +67,12 @@ export const getRecommendations = async ({
 };
 
 export const getTempo = async (trackId: string) => {
-  const accessToken = await getSpotifyAccessToken();
+  const { accessToken, expiresAt } = await getSpotifyAccessToken();
+  if (!accessToken || expiresAt <= new Date().getTime().toString()) {
+    const domain = process.env.VERCEL_ENV === 'production' ? 'https://' + process.env.VERCEL_PROJECT_PRODUCTION_URL : 'http://' + process.env.HOSTNAME;
+
+    redirect(domain + '/api/spotify/login', RedirectType.replace);
+  }
   const response = await fetch(`https://api.spotify.com/v1/audio-features/${trackId}`, {
     headers: {
       Authorization: 'Bearer ' + accessToken,
@@ -75,7 +86,12 @@ export const getTempo = async (trackId: string) => {
 };
 
 export const createPlaylist = async ({ playlistName }: { playlistName: string }) => {
-  const accessToken = await getSpotifyAccessToken();
+  const { accessToken, expiresAt } = await getSpotifyAccessToken();
+  if (!accessToken || expiresAt <= new Date().getTime().toString()) {
+    const domain = process.env.VERCEL_ENV === 'production' ? 'https://' + process.env.VERCEL_PROJECT_PRODUCTION_URL : 'http://' + process.env.HOSTNAME;
+
+    redirect(domain + '/api/spotify/login', RedirectType.replace);
+  }
   console.log(
     'body',
     JSON.stringify({
@@ -103,7 +119,12 @@ export const createPlaylist = async ({ playlistName }: { playlistName: string })
 };
 
 export const addTracksToPlaylist = async ({ playlistId, trackIdList }: { playlistId: string; trackIdList: string[] }) => {
-  const accessToken = await getSpotifyAccessToken();
+  const { accessToken, expiresAt } = await getSpotifyAccessToken();
+  if (!accessToken || expiresAt <= new Date().getTime().toString()) {
+    const domain = process.env.VERCEL_ENV === 'production' ? 'https://' + process.env.VERCEL_PROJECT_PRODUCTION_URL : 'http://' + process.env.HOSTNAME;
+
+    redirect(domain + '/api/spotify/login', RedirectType.replace);
+  }
   console.log('trackIdList', playlistId, trackIdList);
   // add trackIds to the playlist
   const addTracksResponse = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
@@ -124,7 +145,12 @@ export const addTracksToPlaylist = async ({ playlistId, trackIdList }: { playlis
 
 export const searchTrackByName = async (trackName: string) => {
   try {
-    const accessToken = await getSpotifyAccessToken();
+    const { accessToken, expiresAt } = await getSpotifyAccessToken();
+    if (!accessToken || expiresAt <= new Date().getTime().toString()) {
+      const domain = process.env.VERCEL_ENV === 'production' ? 'https://' + process.env.VERCEL_PROJECT_PRODUCTION_URL : 'http://' + process.env.HOSTNAME;
+
+      redirect(domain + '/api/spotify/login', RedirectType.replace);
+    }
     const response = await fetch(`https://api.spotify.com/v1/search?q=track%3D${trackName}&type=track`, {
       headers: {
         Authorization: 'Bearer ' + accessToken,
@@ -143,7 +169,12 @@ export const searchTrackByName = async (trackName: string) => {
 
 export const searchTrackByArtist = async (artistName: string) => {
   try {
-    const accessToken = await getSpotifyAccessToken();
+    const { accessToken, expiresAt } = await getSpotifyAccessToken();
+    if (!accessToken || expiresAt <= new Date().getTime().toString()) {
+      const domain = process.env.VERCEL_ENV === 'production' ? 'https://' + process.env.VERCEL_PROJECT_PRODUCTION_URL : 'http://' + process.env.HOSTNAME;
+
+      redirect(domain + '/api/spotify/login', RedirectType.replace);
+    }
     const response = await fetch(`https://api.spotify.com/v1/search?q=artist%3D${artistName}&type=track`, {
       headers: {
         Authorization: 'Bearer ' + accessToken,
@@ -162,7 +193,12 @@ export const searchTrackByArtist = async (artistName: string) => {
 
 export const searchTrackByAlbum = async (albumName: string) => {
   try {
-    const accessToken = await getSpotifyAccessToken();
+    const { accessToken, expiresAt } = await getSpotifyAccessToken();
+    if (!accessToken || expiresAt <= new Date().getTime().toString()) {
+      const domain = process.env.VERCEL_ENV === 'production' ? 'https://' + process.env.VERCEL_PROJECT_PRODUCTION_URL : 'http://' + process.env.HOSTNAME;
+
+      redirect(domain + '/api/spotify/login', RedirectType.replace);
+    }
     const response = await fetch(`https://api.spotify.com/v1/search?q=album%3D${albumName}&type=track`, {
       headers: {
         Authorization: 'Bearer ' + accessToken,
