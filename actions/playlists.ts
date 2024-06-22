@@ -1,13 +1,15 @@
 'use server';
 
-import { redirect } from 'next/navigation';
+import { RedirectType, redirect } from 'next/navigation';
 import { getSpotifyProfile } from './profile';
 import { getSpotifyAccessToken } from './spotify/tokens';
 
 export const getUserPlaylists = async () => {
   const { accessToken, expiresAt } = await getSpotifyAccessToken();
   if (!accessToken || expiresAt <= new Date().getTime().toString()) {
-    redirect('/api/spotify/login');
+    const domain = process.env.VERCEL_ENV === 'production' ? 'https://' + process.env.VERCEL_PROJECT_PRODUCTION_URL : 'http://' + process.env.HOSTNAME;
+    console.log('REDIRECTING...', domain);
+    redirect(domain + '/api/spotify/login', RedirectType.replace);
   }
 
   const profile = await getSpotifyProfile();
