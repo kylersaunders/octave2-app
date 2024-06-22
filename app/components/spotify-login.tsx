@@ -1,5 +1,4 @@
 'use client';
-import { getSpotifyAccessToken } from '@/actions/tokens';
 
 import { useEffect } from 'react';
 
