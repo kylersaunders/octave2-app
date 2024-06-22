@@ -1,12 +1,17 @@
 'use server';
 
 import { getSpotifyProfile } from './profile';
-import { getSpotifyAccessToken } from './tokens';
+import { getSpotifyAccessToken } from './spotify/tokens';
 
 export const getUserPlaylists = async () => {
-  const accessToken = await getSpotifyAccessToken();
+  let accessToken;
+  try {
+    accessToken = await getSpotifyAccessToken();
+  } catch (e) {
+    console.log('Error in getUserPlaylists', e);
+  }
   const profile = await getSpotifyProfile();
-  console.log('*** DEBUG ***', profile?.id, profile?.display_name, profile?.email, accessToken?.slice(-5));
+  console.log('GET /playlists', 'SPOTIFY: ', profile?.id, profile?.display_name, profile?.email, '--- AC: ', accessToken?.slice(-5));
   const response = await fetch(`https://api.spotify.com/v1/users/${profile.id}/playlists`, {
     headers: {
       Authorization: 'Bearer ' + accessToken,

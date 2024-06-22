@@ -1,15 +1,15 @@
-export const dynamic = 'force-dynamic'; // defaults to auto
+'use server';
 
 import { generateRandomUserState } from '@/lib/utils';
+import { auth } from '@clerk/nextjs/server';
 import { kv } from '@vercel/kv';
 import { redirect } from 'next/navigation';
-import { auth } from '@clerk/nextjs/server';
 
-export async function GET() {
+export const loginWithSpotify = async () => {
   const { userId } = auth();
   console.log('login - clerk user: ', userId);
   if (!userId) {
-    return new Response('Login Unauthorized', { status: 401 });
+    throw new Error('no_user_id');
   }
   const userState = generateRandomUserState(16);
   kv.set(userId + '_state', userState);
@@ -23,14 +23,14 @@ export async function GET() {
   params.append('scope', scope);
 
   if (process.env.SPOTIFY_CLIENT_ID === undefined) {
-    return new Response('Login - Spotify Client ID not defined', { status: 500 });
+    throw new Error('client_id_not_defined');
   }
   params.append('client_id', process.env.SPOTIFY_CLIENT_ID);
 
   if (process.env.SPOTIFY_REDIRECT_URI === undefined) {
-    return new Response('Login - Spotify Redirect URI not defined', { status: 500 });
+    throw new Error('redirect_uri_not_defined');
   }
   params.append('redirect_uri', process.env.SPOTIFY_REDIRECT_URI);
 
   redirect('https://accounts.spotify.com/authorize?' + params.toString());
-}
+};

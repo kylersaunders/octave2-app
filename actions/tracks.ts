@@ -1,6 +1,6 @@
 'use server';
 
-import { getSpotifyAccessToken } from './tokens';
+import { getSpotifyAccessToken } from './spotify/tokens';
 
 export interface Recommendations {
   seedGenres?: string[];

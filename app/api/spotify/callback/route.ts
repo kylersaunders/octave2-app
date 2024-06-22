@@ -8,15 +8,18 @@ export const dynamic = 'force-dynamic'; // defaults to auto
 export async function GET(request: NextRequest, response?: any) {
   const { userId } = auth();
   if (userId === undefined || userId === null) {
-    throw new Error('user_id_not_defined');
+    return new Response('Callback Unauthorized', { status: 401 });
   }
   const code = request?.nextUrl.searchParams.get('code');
   const state = request?.nextUrl.searchParams.get('state');
   const userState = await kv.get(userId + '_state');
 
   // validate state
-  if (!state || !userState) {
+  if (!state) {
     redirect('/#no-state');
+  }
+  if (!userState) {
+    redirect('/#no-user-state');
   }
   if (state !== userState) {
     redirect('/#bad-state');
@@ -31,12 +34,12 @@ export async function GET(request: NextRequest, response?: any) {
   tokenBody.append('code', code);
 
   if (process.env.SPOTIFY_REDIRECT_URI === undefined) {
-    throw new Error('redirect_uri_not_defined');
+    return new Response('Callback - Spotify Redirect URI not defined', { status: 500 });
   }
   tokenBody.append('redirect_uri', process.env.SPOTIFY_REDIRECT_URI || '');
 
   if (process.env.SPOTIFY_CLIENT_ID === undefined || process.env.SPOTIFY_CLIENT_SECRET === undefined) {
-    throw new Error('client_id_or_secret_not_defined');
+    return new Response('Callback - Spotify Client ID or Secret not defined', { status: 500 });
   }
   const authPhrase = Buffer.from(process.env.SPOTIFY_CLIENT_ID + ':' + process.env.SPOTIFY_CLIENT_SECRET).toString('base64');
 
@@ -65,6 +68,8 @@ export async function GET(request: NextRequest, response?: any) {
   kv.set(userId + '_expires_at', expiresAt);
   kv.set(userId + '_access_token', accessToken);
   kv.set(userId + '_refresh_token', refreshToken);
+
+  console.log('Callback - Spotify Auth Success');
 
   redirect('/');
 }
