@@ -1,15 +1,15 @@
 'use server';
 
+import { redirect } from 'next/navigation';
 import { getSpotifyProfile } from './profile';
 import { getSpotifyAccessToken } from './spotify/tokens';
 
 export const getUserPlaylists = async () => {
-  let accessToken;
-  try {
-    accessToken = await getSpotifyAccessToken();
-  } catch (e) {
-    console.log('Error in getUserPlaylists', e);
+  const { accessToken, expiresAt } = await getSpotifyAccessToken();
+  if (!accessToken || expiresAt <= new Date().getTime().toString()) {
+    redirect('/api/spotify/login');
   }
+
   const profile = await getSpotifyProfile();
   console.log('GET /playlists', 'SPOTIFY: ', profile?.id, profile?.display_name, profile?.email, '--- AC: ', accessToken?.slice(-5));
   const response = await fetch(`https://api.spotify.com/v1/users/${profile.id}/playlists`, {
@@ -24,7 +24,11 @@ export const getUserPlaylists = async () => {
 };
 
 export const deletePlaylist = async (playlistId: string) => {
-  const accessToken = await getSpotifyAccessToken();
+  const { accessToken, expiresAt } = await getSpotifyAccessToken();
+  if (!accessToken || expiresAt <= new Date().getTime().toString()) {
+    redirect('/api/spotify/login');
+  }
+
   const response = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/followers`, {
     method: 'DELETE',
     headers: {
@@ -37,7 +41,10 @@ export const deletePlaylist = async (playlistId: string) => {
 };
 
 export const getPlaylistTracks = async (playlistId: string) => {
-  const accessToken = await getSpotifyAccessToken();
+  const { accessToken, expiresAt } = await getSpotifyAccessToken();
+  if (!accessToken || expiresAt <= new Date().getTime().toString()) {
+    redirect('/api/spotify/login');
+  }
   const response = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
     headers: {
       Authorization: 'Bearer ' + accessToken,

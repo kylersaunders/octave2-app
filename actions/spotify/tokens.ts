@@ -2,9 +2,9 @@
 
 import { kv } from '@vercel/kv';
 import { auth, currentUser } from '@clerk/nextjs/server';
-import { convertExpiresAt } from '@/lib/utils';
-import { redirect } from 'next/navigation';
-import { loginWithSpotify } from './login';
+// import { convertExpiresAt } from '@/lib/utils';
+// import { redirect } from 'next/navigation';
+// import { loginWithSpotify } from './login';
 
 export const getSpotifyAccessToken = async () => {
   const session = auth();
@@ -14,36 +14,37 @@ export const getSpotifyAccessToken = async () => {
     throw new Error('getAC - user_id_not_defined');
   }
 
-  let access_token: string | null = (await kv.get(userId + '_access_token')) || null;
+  const access_token: string | null = (await kv.get(userId + '_access_token')) || null;
   const expiresAt: string | null = (await kv.get(userId + '_expires_at')) || new Date().getTime().toString();
 
-  // if expires_at > current time UTC , call /api/spotify/refresh
-  if (expiresAt <= new Date().getTime().toString()) {
-    const refresh_token: string | null = await kv.get(userId + '_refresh_token');
-    if (refresh_token === null || refresh_token === undefined) {
-      loginWithSpotify();
-    } else {
-      access_token = await updateSpotifyTokens(refresh_token);
-    }
-  }
+  // // if expires_at > current time UTC , call /api/spotify/refresh
+  // if (expiresAt <= new Date().getTime().toString()) {
+  //   const refresh_token: string | null = await kv.get(userId + '_refresh_token');
+  //   if (refresh_token === null || refresh_token === undefined) {
+  //     loginWithSpotify();
+  //     return;
+  //   } else {
+  //     access_token = await updateSpotifyTokens(refresh_token);
+  //   }
+  // }
 
-  if (access_token === null) {
-    throw new Error('after no expiry - access_token_not_found');
-  }
+  // if (access_token === null) {
+  //   throw new Error('after no expiry - access_token_not_found');
+  // }
 
-  console.log(
-    '*** TOKEN RETURNED ***',
-    'CLERK_ID: ',
-    userId?.slice(-7),
-    user?.firstName,
-    user?.lastName,
-    user?.emailAddresses?.[0]?.emailAddress,
-    '--- SPOTIFY: ',
-    convertExpiresAt(expiresAt),
-    access_token?.slice(-5)
-  );
+  // console.log(
+  //   '*** TOKEN RETURNED ***',
+  //   'CLERK_ID: ',
+  //   userId?.slice(-7),
+  //   user?.firstName,
+  //   user?.lastName,
+  //   user?.emailAddresses?.[0]?.emailAddress,
+  //   '--- SPOTIFY: ',
+  //   convertExpiresAt(expiresAt),
+  //   access_token?.slice(-5)
+  // );
 
-  return access_token;
+  return { accessToken: access_token, expiresAt };
 };
 
 // to use a refresh token to update all tokens/expiries

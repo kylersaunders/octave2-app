@@ -3,7 +3,7 @@
 import { generateRandomUserState } from '@/lib/utils';
 import { auth } from '@clerk/nextjs/server';
 import { kv } from '@vercel/kv';
-import { redirect } from 'next/navigation';
+// import { redirect } from 'next/navigation';
 
 export const loginWithSpotify = async () => {
   const { userId } = auth();
@@ -32,5 +32,5 @@ export const loginWithSpotify = async () => {
   }
   params.append('redirect_uri', process.env.SPOTIFY_REDIRECT_URI);
 
-  redirect('https://accounts.spotify.com/authorize?' + params.toString());
+  return params.toString();
 };
