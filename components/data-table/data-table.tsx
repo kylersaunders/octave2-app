@@ -43,6 +43,10 @@ export function DataTable<TData, TValue>({ columns, data, callbackOnClick, Custo
       columnVisibility,
       rowSelection,
       columnFilters,
+      pagination: {
+        pageSize: 100,
+        pageIndex: 0,
+      },
     },
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
@@ -58,7 +62,7 @@ export function DataTable<TData, TValue>({ columns, data, callbackOnClick, Custo
   });
 
   return (
-    <div className='space-y-4 p-4'>
+    <div className='space-y-2'>
       <DataTableToolbar table={table} />
       <div className='flex items-center justify-between px-2'>
         {CustomSection && <>{CustomSection()}</>}

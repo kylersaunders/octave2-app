@@ -1,8 +1,8 @@
 import { ModeToggle } from '@/components/mode-toggle';
 import { User } from '@/types/user';
-import SpotifyUser from './spotify-user';
 
 import { UserButton } from '@clerk/nextjs';
+import Footer from '../footer/footer';
 
 export default function Header({ user }: { user?: User }) {
   return (
@@ -11,6 +11,7 @@ export default function Header({ user }: { user?: User }) {
         <a href='/'>
           <h1 className='text-2xl font-bold'>Octave</h1>
         </a>
+        <Footer />
         <div className='flex items-center justify-center space-x-4'>
           <ModeToggle />
           <UserButton />

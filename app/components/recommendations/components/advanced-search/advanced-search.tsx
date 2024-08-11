@@ -11,7 +11,7 @@ export default function AdvancedSearch() {
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Button variant='outline'>Advanced Search</Button>
+        <Button variant='outline'>Generate Recommendations</Button>
       </DrawerTrigger>
       <DrawerContent className='bottom-0'>
         <div className='mx-auto w-full max-w-full p-8'>

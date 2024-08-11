@@ -4,9 +4,8 @@ import { ColumnDef } from '@tanstack/react-table';
 
 import { DataTableColumnHeader } from '../../../../components/data-table/components/data-table-column-header';
 import { RecommendationsData } from '@/types/tracks';
-// import { ButtonAddToPlaylist, ButtonAddToSeeds } from './row-button';
 import { TrackPlus } from '@/lib/features/builder/builderSlice';
-import { PlaylistsRowActions } from './playlists-row-actions';
+import Image from 'next/image';
 
 export function millisecondsToMMSS(ms: number) {
   const minutes = Math.floor(ms / 60000);
@@ -23,8 +22,9 @@ export const playlistColumns: ColumnDef<RecommendationsData | TrackPlus>[] = [
   // columns are based on the UsersPlaylists type
   {
     accessorKey: 'imageUrl',
-    // header: ({ column }) => <DataTableColumnHeader column={column} title='Images' />,
-    cell: ({ row }) => <img className='w-[80px]' src={row.getValue('imageUrl')} />,
+    cell: ({ row }: { row: any }) => {
+      return <Image width={80} height={80} src={row.getValue('imageUrl').toString().replace('#', '') ?? ''} alt={``} />;
+    },
     enableSorting: false,
     enableHiding: false,
   },

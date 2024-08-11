@@ -121,4 +121,5 @@ export interface RecommendationsData {
   initialPoolSize: number;
   href: string;
   type: string;
+  tempo?: number;
 }

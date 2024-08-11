@@ -10,9 +10,12 @@ export interface Recommendations {
   limit?: string;
   market?: string;
   targetDanceability?: string;
+  minDurationMs?: string;
   targetDurationMs?: string;
+  maxDurationMs?: string;
   targetEnergy?: string;
   minTempo?: string;
+  targetTempo?: string;
   maxTempo?: string;
 }
 
@@ -23,9 +26,12 @@ export const getRecommendations = async ({
   limit,
   market,
   targetDanceability,
+  minDurationMs,
   targetDurationMs,
+  maxDurationMs,
   targetEnergy,
   minTempo,
+  targetTempo,
   maxTempo,
 }: Recommendations) => {
   const recommendationsBody = new URLSearchParams();
@@ -35,9 +41,12 @@ export const getRecommendations = async ({
   if (seedGenres) recommendationsBody.append('seed_genres', seedGenres.join(','));
   if (seedTracks) recommendationsBody.append('seed_tracks', seedTracks.join(','));
   if (targetDanceability) recommendationsBody.append('target_danceability', targetDanceability.toString());
+  if (minDurationMs) recommendationsBody.append('min_duration_ms', minDurationMs.toString());
   if (targetDurationMs) recommendationsBody.append('target_duration_ms', targetDurationMs.toString());
+  if (maxDurationMs) recommendationsBody.append('max_duration_ms', maxDurationMs.toString());
   if (targetEnergy) recommendationsBody.append('target_energy', targetEnergy.toString());
   if (minTempo) recommendationsBody.append('min_tempo', minTempo.toString());
+  if (targetTempo) recommendationsBody.append('target_tempo', targetTempo.toString());
   if (maxTempo) recommendationsBody.append('max_tempo', maxTempo.toString());
 
   console.log('***', recommendationsBody.toString());

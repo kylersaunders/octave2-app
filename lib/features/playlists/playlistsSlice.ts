@@ -22,7 +22,7 @@ const initialState: PlaylistSliceState = {
 
 // If you are not using async thunks you can use the standalone `createSlice`.
 export const playlistSlice = createAppSlice({
-  name: 'playlists',
+  name: 'userPlaylists',
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions

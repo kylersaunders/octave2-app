@@ -4,7 +4,7 @@ import { ColumnDef } from '@tanstack/react-table';
 
 import { DataTableColumnHeader } from '../../../../components/data-table/components/data-table-column-header';
 import { RecommendationsData } from '@/types/tracks';
-import { ButtonAddToPlaylist, ButtonAddToSeeds } from './row-button';
+import { AddDropDownButton, ButtonAddToPlaylist, ButtonAddToSeeds } from './row-button';
 import { TrackPlus } from '@/lib/features/builder/builderSlice';
 
 export function millisecondsToMMSS(ms: number) {
@@ -20,24 +20,8 @@ export const summarizeArtistsMaxN = (artists: { name: string }[], n: number) => 
 
 export const columns: ColumnDef<RecommendationsData | TrackPlus>[] = [
   {
-    accessorKey: 'preview_url',
-    header: ({ column }) => <div>{''}</div>,
-    cell: ({ row }) => {
-      return (
-        <audio controls>
-          <source src={row.getValue('preview_url')} type='audio/mpeg' />
-          Your browser does not support the audio element.
-        </audio>
-      );
-    },
-  },
-  {
     id: 'addToSeeds',
-    cell: ({ row }) => <ButtonAddToSeeds row={row} />,
-  },
-  {
-    id: 'addToPlaylist',
-    cell: ({ row }) => <ButtonAddToPlaylist row={row} />,
+    cell: ({ row }) => <AddDropDownButton row={row} />,
   },
   {
     accessorKey: 'duration_ms',
@@ -59,9 +43,11 @@ export const columns: ColumnDef<RecommendationsData | TrackPlus>[] = [
     accessorKey: 'tempo',
     header: ({ column }) => <DataTableColumnHeader column={column} title='Tempo' />,
     cell: ({ row }) => {
+      const tempo = row.getValue('tempo');
+      const rounded = Math.round(Number(tempo) / 4);
       return (
         <div className='flex items-center'>
-          <span>{row.getValue('tempo')}</span>
+          <span>{rounded || ''}</span>
         </div>
       );
     },

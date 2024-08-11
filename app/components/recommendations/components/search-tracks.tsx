@@ -1,6 +1,6 @@
 'use client';
 
-import { setTracks, selectSearchTerm, setSearchTerm, setRecStatus, selectRecTracks } from '@/lib/features/recommendations/byNameSlice';
+import { setTracks, selectSearchTerm, setSearchTerm, setRecStatus, selectSearchTracks } from '@/lib/features/recommendations/recommendationsSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { searchTrackByAlbum, searchTrackByArtist, searchTrackByName } from '@/actions/tracks';
 import { debounce } from 'lodash';
@@ -33,7 +33,7 @@ export default function SearchTracks() {
       });
     });
 
-    dispatch(setRecStatus(IDLE));
+    // dispatch(setRecStatus(IDLE));
     dispatch(setTracks(uniqueTracks));
   }, 500);
 

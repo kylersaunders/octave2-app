@@ -8,10 +8,10 @@ export default function Home() {
   return (
     <>
       <Tabs defaultValue='recommendations' className='mx-8'>
-        <TabsList className='grid grid-cols-3'>
+        <TabsList className='grid grid-cols-2'>
           <TabsTrigger value='recommendations'>Get Recommendations</TabsTrigger>
           <TabsTrigger value='playlists'>My Playlists</TabsTrigger>
-          <TabsTrigger value='builder'>Build New Playlist</TabsTrigger>
+          {/* <TabsTrigger value='builder'>Build New Playlist</TabsTrigger> */}
         </TabsList>
 
         <TabsContent value='recommendations'>
@@ -22,9 +22,9 @@ export default function Home() {
           <ViewMyPlaylists />
         </TabsContent>
 
-        <TabsContent value='builder'>
+        {/* <TabsContent value='builder'>
           <PlaylistBuilder />
-        </TabsContent>
+        </TabsContent> */}
       </Tabs>
     </>
   );

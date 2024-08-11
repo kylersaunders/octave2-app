@@ -32,8 +32,8 @@ export default function ViewMyPlaylists() {
   }, [dispatch]);
 
   useEffect(() => {
-    fetchPlaylists();
-  }, [fetchPlaylists]);
+    if (!playlists.length) fetchPlaylists();
+  }, [fetchPlaylists, playlists]);
 
   function selectPlaylist(row: any) {
     setSelectedPlaylistId(row.id);

@@ -19,7 +19,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { addTrack, selectStatus, selectPlaylistTracks } from '@/lib/features/builder/builderSlice';
 
-import { addSeed } from '@/lib/features/seeds/seedsSlice';
+import { addSeed } from '@/lib/features/recommendations/recommendationsSlice';
 
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import styles from './Counter.module.css';

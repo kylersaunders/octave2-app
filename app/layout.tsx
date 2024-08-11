@@ -7,6 +7,7 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { ThemeSwitcher } from '@/components/theme-switcher';
 import { ClerkProvider, SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
+import Footer from './components/footer/footer';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -38,6 +39,7 @@ export default async function RootLayout({
                 <TooltipProvider delayDuration={0}>
                   <Header />
                   {children}
+                  {/* <Footer /> */}
                 </TooltipProvider>
                 <ThemeSwitcher />
                 {/* <LoginWithSpotify /> */}
