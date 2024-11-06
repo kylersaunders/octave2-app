@@ -20,20 +20,24 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 
 import { DataTablePagination } from './components/data-table-pagination';
 import { DataTableToolbar } from './components/data-table-toolbar';
+import { ProgressBar } from '../loading';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   callbackOnClick?: (data: TData) => void;
   CustomSection?: () => JSX.Element;
+  isLoading?: boolean;
+  children?: React.ReactNode;
 }
 
-export function DataTable<TData, TValue>({ columns, data, callbackOnClick, CustomSection }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, callbackOnClick, CustomSection, isLoading, children }: DataTableProps<TData, TValue>) {
   console.log('DataTable rendered');
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [isOpen, setIsOpen] = React.useState<{ [key: string]: any }>({});
 
   const table = useReactTable({
     data,
@@ -83,21 +87,44 @@ export function DataTable<TData, TValue>({ columns, data, callbackOnClick, Custo
               </TableRow>
             ))}
           </TableHeader>
+
           <TableBody>
+            {isLoading && (
+              <TableRow>
+                <TableCell colSpan={columns.length} className='text-center'>
+                  <ProgressBar duration={4000} />
+                </TableCell>
+              </TableRow>
+            )}
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => {
                 return (
-                  <TableRow
-                    key={'row' + row.id}
-                    data-state={row.getIsSelected() && 'selected'}
-                    onClick={(e: any) => {
-                      if (callbackOnClick) callbackOnClick(row.original);
-                    }}
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
-                    ))}
-                  </TableRow>
+                  <>
+                    <TableRow
+                      key={'row' + row.id}
+                      data-state={row.getIsSelected() && 'selected'}
+                      onClick={(e: any) => {
+                        if (callbackOnClick) callbackOnClick(row.original);
+                      }}
+                    >
+                      {row.getVisibleCells().map((cell) => (
+                        <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                      ))}
+                      {/* expand icon here */}
+                      {children ? (
+                        <TableCell>
+                          <button
+                            onClick={() => {
+                              setIsOpen((prev) => ({ ...prev, [row.id]: !prev[row.id] }));
+                            }}
+                          >
+                            {isOpen[row.id] ? '<' : 'V'}
+                          </button>
+                        </TableCell>
+                      ) : null}
+                    </TableRow>
+                    {isOpen[row.id] && { children }}
+                  </>
                 );
               })
             ) : (

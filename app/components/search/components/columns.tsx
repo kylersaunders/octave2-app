@@ -4,11 +4,11 @@ import { ColumnDef } from '@tanstack/react-table';
 
 import { DataTableColumnHeader } from '../../../../components/data-table/components/data-table-column-header';
 import { RecommendationsData } from '@/types/tracks';
-import { AddDropDownButton, ButtonAddToPlaylist, ButtonAddToSeeds } from '../../../../components/row-button';
 import { TrackPlus } from '@/lib/features/builder/builderSlice';
 import { millisecondsToMMSS, summarizeArtistsMaxN } from '@/lib/utils';
+import { AddDropDownButton } from '@/components/row-button';
 
-export const columns: ColumnDef<RecommendationsData | TrackPlus>[] = [
+export const searchResultsColumns: ColumnDef<RecommendationsData | TrackPlus>[] = [
   {
     id: 'addToSeeds',
     cell: ({ row }) => <AddDropDownButton row={row} />,

@@ -1,12 +1,11 @@
 import { createAppSlice } from '@/lib/createAppSlice';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { TrackPlus } from '../builder/builderSlice';
-import { RecommendationsData, Seed } from '@/types/tracks';
+import { RecommendationsData, Seed, Track } from '@/types/tracks';
 import { SeedStatus, Status } from '@/types/common';
-import { RecommendationInputFormValues } from '@/app/components/recommendations/components/advanced-search/components/recommendation-inputs';
 
 // bring in all except seedTracksState, seedGenresState, seedArtistsState
-export interface SearchSliceFiltersState extends Omit<RecommendationInputFormValues, 'seedTracksState' & 'seedGenresState'> {
+export interface SearchSliceFiltersState extends Omit<any, 'seedTracksState' & 'seedGenresState' & 'seedArtistsState'> {
   seedTracks?: string[];
   seedGenres?: string[];
   seedArtists?: string[];
@@ -17,7 +16,12 @@ export interface SearchSliceState {
   searchTerm?: string;
   status: Status;
   selectedUrl: string;
-  filters: SearchSliceFiltersState;
+  filterState: {
+    seedGenresState: { [key: string]: any }[];
+    seedArtistsState: { [key: string]: any }[];
+    seedTracksState: TrackPlus[];
+  };
+  filters: any;
   seedTracksStatus: SeedStatus;
 }
 
@@ -26,10 +30,12 @@ const initialState: SearchSliceState = {
   searchTerm: '',
   status: Status.IDLE,
   selectedUrl: '',
-  filters: {
+  filterState: {
     seedGenresState: [],
     seedArtistsState: [],
     seedTracksState: [],
+  },
+  filters: {
     targetDanceability: '0.5',
     limit: '100',
   },
@@ -71,14 +77,14 @@ export const recommendationsSlice = createAppSlice({
       if (state.filters.seedTracksState?.length >= 5) {
         state.seedTracksStatus = SeedStatus.MAX;
       } else {
-        const temp = new Set(state.filters.seedTracksState?.map((seed) => seed?.id));
+        const temp = new Set(state.filters.seedTracksState?.map((seed: any) => seed?.id));
         if (!temp.has(action.payload.id)) {
           state.filters.seedTracksState?.push(action.payload);
         }
       }
     }),
     removeSeed: create.reducer((state, action: PayloadAction<string>) => {
-      state.filters.seedTracksState = state.filters.seedTracksState?.filter((seed) => seed?.id !== action.payload);
+      state.filters.seedTracksState = state.filters.seedTracksState?.filter((seed: any) => seed?.id !== action.payload);
     }),
     clearSeeds: create.reducer((state) => {
       state.filters.seedTracksState = [];

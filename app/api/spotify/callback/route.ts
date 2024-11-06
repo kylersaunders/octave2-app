@@ -2,6 +2,7 @@ import { NextRequest } from 'next/server';
 import { kv } from '@vercel/kv';
 import { auth, currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
+import { encodeAuth } from '@/lib/auth/auth';
 
 export const dynamic = 'force-dynamic'; // defaults to auto
 
@@ -65,9 +66,7 @@ export async function GET(request: NextRequest, response?: any) {
     redirect('/#spotify-auth-failed');
   }
 
-  kv.set(userId + '_expires_at', expiresAt);
-  kv.set(userId + '_access_token', accessToken);
-  kv.set(userId + '_refresh_token', refreshToken);
+  kv.set(userId + '_auth', encodeAuth({ accessToken, refreshToken, expiresAt }));
 
   console.log('Callback - Spotify Auth Success');
 

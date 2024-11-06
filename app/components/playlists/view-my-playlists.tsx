@@ -9,7 +9,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { playlistColumns } from './components/playlists-columns';
 import SelectedPlaylist from './selected-playlist/selected-playlist';
 
-export default function ViewMyPlaylists() {
+export default function PlaylistsTab() {
   const dispatch = useAppDispatch();
   const playlists = useAppSelector(selectPlaylists);
   const [selectedPlaylistId, setSelectedPlaylistId] = useState<string>();

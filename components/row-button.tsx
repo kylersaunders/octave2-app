@@ -1,6 +1,5 @@
 'use client';
 
-import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { Row } from '@tanstack/react-table';
 
 import { Button } from '@/components/ui/button';
@@ -8,11 +7,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuPortal,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
@@ -28,9 +22,6 @@ import { TrackPlus } from '@/lib/features/builder/builderSlice';
 import { Open } from '@/types/utils';
 import { SEEDS_MAX_PHRASE } from '@/lib/constants';
 import { addPlaylists, selectPlaylists } from '@/lib/features/playlists/playlistsSlice';
-import { useCallback, useEffect } from 'react';
-import { getUserPlaylists } from '@/actions/playlists';
-import { UsersPlaylists } from '@/types/playlists';
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
@@ -53,7 +44,7 @@ export function ButtonAddToSeeds<TData>({ row }: DataTableRowActionsProps<TData>
   if (new Set(seeds.map((x) => x?.id)).has(track.id)) {
     return <Button disabled={true}>{`Seeded`}</Button>;
   }
-  if (seeds.length >= 5) {
+  if (seeds?.length >= 5) {
     return <Button disabled={true}>{`Limit reached`}</Button>;
   }
 

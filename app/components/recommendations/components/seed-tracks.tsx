@@ -13,7 +13,7 @@ export default function SeedTracks() {
     dispatch(removeSeed(seedId));
   }
 
-  if (seeds.length)
+  if (seeds?.length)
     return (
       <div className='flex flex-row items-center justify-center space-x-4'>
         <label htmlFor='seeds' className='ml-2'>

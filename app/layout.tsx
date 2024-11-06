@@ -2,12 +2,12 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { StoreProvider } from './StoreProvider';
-import Header from './components/header/header';
+import Header from './components/header/Header';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { ThemeSwitcher } from '@/components/theme-switcher';
 import { ClerkProvider, SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
-import Footer from './components/footer/footer';
+import Footer from './components/footer/Footer';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -39,7 +39,7 @@ export default async function RootLayout({
                 <TooltipProvider delayDuration={0}>
                   <Header />
                   {children}
-                  {/* <Footer /> */}
+                  <Footer />
                 </TooltipProvider>
                 <ThemeSwitcher />
                 {/* <LoginWithSpotify /> */}

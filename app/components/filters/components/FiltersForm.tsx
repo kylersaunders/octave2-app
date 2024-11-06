@@ -7,7 +7,6 @@ import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { getRecommendations } from '@/actions/tracks';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { TrackPlus } from '@/lib/features/builder/builderSlice';
 import {
@@ -29,11 +28,9 @@ import {
 } from '@/lib/features/recommendations/recommendationsSlice';
 import { Status } from '@/types/common';
 import { useCallback } from 'react';
+import { selectFilters } from '@/lib/features/filters/filtersSlice';
 
 const inputFormSchema = z.object({
-  seedGenresState: z.array(z.object({}).optional()),
-  seedArtistsState: z.array(z.object({}).optional()),
-  seedTracksState: z.array(z.object({ id: z.string(), name: z.string() }).optional()),
   seedGenres: z.array(z.string().optional()).optional(),
   seedArtists: z.array(z.string().optional()).optional(),
   seedTracks: z.array(z.string().optional()).optional(),
@@ -63,80 +60,69 @@ const inputFormSchema = z.object({
 
 export type RecommendationInputFormValues = z.infer<typeof inputFormSchema>;
 
-export function AdvancedSearchForm() {
+export function FiltersForm({ setShowForm }: { setShowForm: (show: boolean) => void }) {
   console.log('InputsForm rerendered');
   const dispatch = useAppDispatch();
-  const seedTracksState = useAppSelector(selectSeeds);
-  const filters = useAppSelector(selectSearchFilters);
+  const filters = useAppSelector(selectFilters);
+  console.log('filters', filters);
   const form = useForm<RecommendationInputFormValues>({
     resolver: zodResolver(inputFormSchema),
     values: filters,
     mode: 'onChange',
   });
 
-  const onSubmit = useCallback(
-    async (data: RecommendationInputFormValues) => {
-      const recommendationsParamsObject = {
-        ...data,
-      };
-      if (seedTracksState?.length) {
-        // @ts-expect-error
-        recommendationsParamsObject.seedTracks = seedTracksState.map((track: TrackPlus) => {
-          return track.id;
-        });
-      } else {
-        recommendationsParamsObject.seedTracks = ['12jmCJskrYkrEEy6rUlQ0W'];
-      }
-      if (data.minDuration) {
-        const [minutes, seconds] = data.minDuration.split(':').map(Number);
-        const newMs = ((minutes * 60 + seconds) * 1000).toString();
-        set(recommendationsParamsObject, 'minDurationMs', newMs);
-      }
-      if (data.targetDuration) {
-        const [minutes, seconds] = data.targetDuration.split(':').map(Number);
-        const newMs = ((minutes * 60 + seconds) * 1000).toString();
-        set(recommendationsParamsObject, 'targetDurationMs', newMs);
-      }
-      if (data.maxDuration) {
-        const [minutes, seconds] = data.maxDuration.split(':').map(Number);
-        const newMs = ((minutes * 60 + seconds) * 1000).toString();
-        set(recommendationsParamsObject, 'maxDurationMs', newMs);
-      }
-      // convert for rowing
-      if (data.minSpm) {
-        data.minTempo = (parseInt(data.minSpm) * 4).toString();
-      }
-      if (data.targetSpm) {
-        recommendationsParamsObject.targetTempo = (parseInt(data.targetSpm) * 4).toString();
-      }
-      if (data.maxSpm) {
-        data.maxTempo = (parseInt(data.maxSpm) * 4).toString();
-      }
-      // check that there's no impossibilities
-      if (data.minTempo === data.maxTempo && data.minTempo) {
-        recommendationsParamsObject.minTempo = Math.max(0, parseInt(data.minTempo || '0') - 1).toString();
-      }
-      if (data.maxTempo === data.minTempo && data.maxTempo) {
-        recommendationsParamsObject.maxTempo = Math.min(300, parseInt(data.maxTempo || '300') + 1).toString();
-      }
-
-      // @ts-expect-error
-      const tracks = await getRecommendations(recommendationsParamsObject);
-
-      dispatch(setTracks(tracks.tracks));
-    },
-    [dispatch, seedTracksState]
-  );
+  // const onSubmit = useCallback(async (data: RecommendationInputFormValues) => {
+  //   const recommendationsParamsObject = {
+  //     ...data,
+  //   };
+  //   if (data.minDuration) {
+  //     const [minutes, seconds] = data.minDuration.split(':').map(Number);
+  //     const newMs = ((minutes * 60 + seconds) * 1000).toString();
+  //     set(recommendationsParamsObject, 'minDurationMs', newMs);
+  //   }
+  //   if (data.targetDuration) {
+  //     const [minutes, seconds] = data.targetDuration.split(':').map(Number);
+  //     const newMs = ((minutes * 60 + seconds) * 1000).toString();
+  //     set(recommendationsParamsObject, 'targetDurationMs', newMs);
+  //   }
+  //   if (data.maxDuration) {
+  //     const [minutes, seconds] = data.maxDuration.split(':').map(Number);
+  //     const newMs = ((minutes * 60 + seconds) * 1000).toString();
+  //     set(recommendationsParamsObject, 'maxDurationMs', newMs);
+  //   }
+  //   // convert for rowing
+  //   if (data.minSpm) {
+  //     data.minTempo = (parseInt(data.minSpm) * 4).toString();
+  //   }
+  //   if (data.targetSpm) {
+  //     recommendationsParamsObject.targetTempo = (parseInt(data.targetSpm) * 4).toString();
+  //   }
+  //   if (data.maxSpm) {
+  //     data.maxTempo = (parseInt(data.maxSpm) * 4).toString();
+  //   }
+  //   // check that there's no impossibilities
+  //   if (data.minTempo === data.maxTempo && data.minTempo) {
+  //     recommendationsParamsObject.minTempo = Math.max(0, parseInt(data.minTempo || '0') - 1).toString();
+  //   }
+  //   if (data.maxTempo === data.minTempo && data.maxTempo) {
+  //     recommendationsParamsObject.maxTempo = Math.min(300, parseInt(data.maxTempo || '300') + 1).toString();
+  //   }
+  // }, []);
 
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-row justify-center space-x-4 min-w-[25vw] max-w-[95vw] overflow-x-auto m-4'>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+          }}
+          className='flex flex-col justify-center space-y-4 min-w-[25vw] max-w-[95vw] overflow-y-auto m-4'
+        >
           <FormField
             control={form.control}
             name='minDuration'
             render={({ field }) => (
-              <FormItem className='grid grid-cols-1 w-fit'>
+              <FormItem className='grid grid-cols-1 w-fit px-2'>
                 <FormLabel className='w-fit whitespace-nowrap'>Min Duration</FormLabel>
                 <FormControl>
                   <Input
@@ -164,7 +150,7 @@ export function AdvancedSearchForm() {
             control={form.control}
             name='maxDuration'
             render={({ field }) => (
-              <FormItem className='grid grid-cols-1 w-fit'>
+              <FormItem className='grid grid-cols-1 w-fit px-2'>
                 <FormLabel className='w-fit whitespace-nowrap'>Max Duration</FormLabel>
                 <FormControl>
                   <Input
@@ -193,7 +179,7 @@ export function AdvancedSearchForm() {
             control={form.control}
             name='minTempo'
             render={({ field }) => (
-              <FormItem className='grid grid-cols-1 w-fit'>
+              <FormItem className='grid grid-cols-1 w-fit px-2'>
                 <FormLabel className='w-fit whitespace-nowrap'>Min Tempo</FormLabel>
                 <FormControl>
                   <Input
@@ -216,7 +202,7 @@ export function AdvancedSearchForm() {
             control={form.control}
             name='maxTempo'
             render={({ field }) => (
-              <FormItem className='grid grid-cols-1 w-fit'>
+              <FormItem className='grid grid-cols-1 w-fit px-2'>
                 <FormLabel className='w-fit whitespace-nowrap'>Max Tempo</FormLabel>
                 <FormControl>
                   <Input
@@ -239,7 +225,7 @@ export function AdvancedSearchForm() {
             control={form.control}
             name='minSpm'
             render={({ field }) => (
-              <FormItem className='grid grid-cols-1 w-fit'>
+              <FormItem className='grid grid-cols-1 w-fit px-2'>
                 <FormLabel className='w-fit whitespace-nowrap'>Min SPM</FormLabel>
                 <FormControl>
                   <Input
@@ -262,7 +248,7 @@ export function AdvancedSearchForm() {
             control={form.control}
             name='maxSpm'
             render={({ field }) => (
-              <FormItem className='grid grid-cols-1 w-fit'>
+              <FormItem className='grid grid-cols-1 w-fit px-2'>
                 <FormLabel className='w-fit whitespace-nowrap'>Max SPM</FormLabel>
                 <FormControl>
                   <Input
@@ -285,7 +271,7 @@ export function AdvancedSearchForm() {
             control={form.control}
             name='targetDanceability'
             render={({ field }) => (
-              <FormItem className='grid grid-cols-1 w-fit'>
+              <FormItem className='grid grid-cols-1 w-fit px-2'>
                 <FormLabel className='w-fit whitespace-nowrap'>Danceability</FormLabel>
                 <FormControl>
                   <Input
@@ -308,7 +294,7 @@ export function AdvancedSearchForm() {
             control={form.control}
             name='targetEnergy'
             render={({ field }) => (
-              <FormItem className='grid grid-cols-1 w-fit'>
+              <FormItem className='grid grid-cols-1 w-fit px-2'>
                 <FormLabel className='w-fit whitespace-nowrap'>Energy</FormLabel>
                 <FormControl>
                   <Input
@@ -331,7 +317,7 @@ export function AdvancedSearchForm() {
             control={form.control}
             name='limit'
             render={({ field }) => (
-              <FormItem className='grid grid-cols-1 w-fit'>
+              <FormItem className='grid grid-cols-1 w-fit px-2'>
                 <FormLabel className='w-fit whitespace-nowrap'>Limit</FormLabel>
                 <FormControl>
                   <Input
@@ -352,7 +338,9 @@ export function AdvancedSearchForm() {
           />
           <div className='grid grid-cols-1'>
             <div className='h-4'></div>
-            <Button type='submit'>Go!</Button>
+            <Button type='submit' onClick={() => setShowForm(false)}>
+              Done
+            </Button>
           </div>
         </form>
       </Form>
