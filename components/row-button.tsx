@@ -35,12 +35,14 @@ export function ButtonAddToSeeds<TData>({ row }: DataTableRowActionsProps<TData>
   function handleAddToSeeds() {
     console.log('+seed', track.id);
 
+    // @ts-ignore
     const temp = new Set(seeds.map((seed) => seed?.id));
 
     if (temp.has(track.id)) return;
     dispatch(addSeed(row.original as TrackPlus));
   }
 
+  // @ts-ignore
   if (new Set(seeds.map((x) => x?.id)).has(track.id)) {
     return <Button disabled={true}>{`Seeded`}</Button>;
   }
@@ -103,6 +105,7 @@ export function AddDropDownButton<TData>({ row }: DataTableRowActionsProps<TData
   function handleAddToSeeds() {
     console.log('+seed', track.id);
 
+    // @ts-ignore
     const temp = new Set(seeds.map((seed) => seed?.id));
 
     if (temp.has(track.id)) return;
@@ -112,6 +115,7 @@ export function AddDropDownButton<TData>({ row }: DataTableRowActionsProps<TData
   function handleAddToPlaylist() {
     console.log('+track', track.id);
 
+    // @ts-ignore
     const temp = new Set(seeds.map((seed) => seed?.id));
 
     if (temp.has(track.id)) return;

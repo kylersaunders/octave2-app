@@ -8,7 +8,6 @@ import { TrackPlus, removeTrack, selectPlaylistTracks, selectTitle, setTitle } f
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { Minus, Plus } from 'lucide-react';
 import { useState } from 'react';
-import { summarizeArtistsMaxN } from '../recommendations/components/recs-columns';
 import { DataTable } from '@/components/data-table/data-table';
 import { builderColumns } from './components/builder-columns';
 import { set } from 'lodash';

@@ -7,7 +7,7 @@ import { addTracksToPlaylistAsync, selectStatus, selectTitle, selectPlaylistTrac
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import styles from './Counter.module.css';
 import { TrackPlus } from '@/lib/features/builder/builderSlice';
-import { createPlaylist } from '@/actions/tracks';
+// import { createPlaylist } from '@/actions/tracks';
 import build from 'next/dist/build';
 import { Button } from '@/components/ui/button';
 
@@ -23,8 +23,8 @@ export default function PlaylistPage() {
   }
 
   async function handleCreatePlaylist() {
-    const playlistId = await createPlaylist({ playlistName });
-    dispatch(addTracksToPlaylistAsync({ playlistId, trackIdList: tracks.map((x: TrackPlus) => x.id) }));
+    // const playlistId = await createPlaylist({ playlistName });
+    // dispatch(addTracksToPlaylistAsync({ playlistId, trackIdList: tracks.map((x: TrackPlus) => x.id) }));
   }
 
   if (status === 'loading') {

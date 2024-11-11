@@ -21,7 +21,7 @@ import {
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { Open } from '@/types/utils';
 import { useState } from 'react';
-import { deletePlaylist } from '@/actions/playlists';
+// import { deletePlaylist } from '@/actions/playlists';
 import { removePlaylist } from '@/lib/features/playlists/playlistsSlice';
 
 interface PlaylistsRowActionsProps<TData> {
@@ -34,7 +34,7 @@ function DeleteConfirmationActions({ id, cancel }: PlaylistsRowActionsProps<any>
   async function handleDelete(e: any) {
     e.preventDefault();
     // TODO: error handling
-    await deletePlaylist(id);
+    // await deletePlaylist(id);
     // TODO: debug this && figure out if server actions are working
     dispatch(removePlaylist(id));
     if (cancel) cancel(e);

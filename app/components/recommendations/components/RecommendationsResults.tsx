@@ -14,7 +14,7 @@ import { DataTable } from '../../../../components/data-table/data-table';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { useCallback, useMemo } from 'react';
 import { Status } from '@/types/common';
-import { getTempo } from '@/actions/tracks';
+// import { getTempo } from '@/actions/tracks';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useGetRecommendationsQuery } from '@/lib/api/fetchRecommendations';
 import { getQueryStringFromObject } from '@/lib/utils';
@@ -35,8 +35,8 @@ export default function RecommendationsResults() {
       // if not, fetch details
       const targetTrack = data.find((track: any) => track?.id === row.id);
       if (targetTrack?.tempo === undefined) {
-        const tempo = await getTempo([row.id]);
-        dispatch(addTempoToTrack({ id: row.id, tempo }));
+        // const tempo = await getTempo([row.id]);
+        // dispatch(addTempoToTrack({ id: row.id, tempo }));
       }
 
       dispatch(setSelectedUrl(row.id));

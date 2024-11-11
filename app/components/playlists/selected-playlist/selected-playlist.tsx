@@ -1,4 +1,4 @@
-import { getPlaylistTracks } from '@/actions/playlists';
+// import { getPlaylistTracks } from '@/actions/playlists';
 import { DataTable } from '@/components/data-table/data-table';
 import { useCallback, useEffect, useState } from 'react';
 import { columns } from '../../recommendations/components/recs-columns';
@@ -10,22 +10,22 @@ export default function SelectedPlaylist({ id, back }: { id: string; back?: (arg
 
   const getTracks = useCallback(async (id: string) => {
     // fetch playlist data
-    const data = await getPlaylistTracks(id);
+    // const data = await getPlaylistTracks(id);
     let adjustedData = [];
-    if (data.items.length) {
-      adjustedData = data.items.map((item: any) => {
-        return {
-          ...item.track,
-          preview_url: item.track.preview_url,
-          artists: item.track.artists,
-          duration_ms: item.track.duration_ms,
-          name: item.track.name,
-          tempo: item.track.tempo,
-        };
-      });
-    }
+    // if (data.items.length) {
+    //   adjustedData = data.items.map((item: any) => {
+    //     return {
+    //       ...item.track,
+    //       preview_url: item.track.preview_url,
+    //       artists: item.track.artists,
+    //       duration_ms: item.track.duration_ms,
+    //       name: item.track.name,
+    //       tempo: item.track.tempo,
+    //     };
+    //   });
+    // }
 
-    setSelectedPlaylistData(adjustedData);
+    // setSelectedPlaylistData(adjustedData);
   }, []);
 
   useEffect(() => {

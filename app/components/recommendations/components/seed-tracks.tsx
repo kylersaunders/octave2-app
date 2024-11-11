@@ -20,12 +20,12 @@ export default function SeedTracks() {
           Seed Tracks
         </label>
         <div className='flex flex-row border rounded-md p-2'>
-          {seeds.map((seed, ind) => (
+          {/* {seeds.map((seed, ind) => (
             <Button key={ind} variant='ghost' onClick={() => handleRemoveSeed(seed?.id || '')} className='h-8 px-2 lg:px-3'>
               {seed?.name}
               <Cross2Icon className='ml-2 h-4 w-4' />
             </Button>
-          ))}
+          ))} */}
         </div>
       </div>
     );

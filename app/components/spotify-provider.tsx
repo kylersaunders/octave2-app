@@ -1,5 +1,5 @@
 'use client';
-import { getSpotifyProfile } from '@/actions/profile';
+// import { getSpotifyProfile } from '@/actions/profile';
 import { useEffect, useState } from 'react';
 import { createContext } from 'react';
 
@@ -10,9 +10,9 @@ export default function SpotifyProvider({ children }: { children: React.ReactNod
 
   async function fetchSpotifyUser() {
     try {
-      const user = await getSpotifyProfile();
-      console.log('user!', user);
-      setSpotifyUser(user);
+      // const user = await getSpotifyProfile();
+      // console.log('user!', user);
+      // setSpotifyUser(user);
     } catch (e) {
       console.log(e);
     }

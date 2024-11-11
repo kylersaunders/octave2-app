@@ -2,7 +2,7 @@ import { createAppSlice } from '@/lib/createAppSlice';
 // import type { AppThunk } from '@/lib/store';
 import type { PayloadAction } from '@reduxjs/toolkit';
 // import { fetchCount } from './counterAPI';
-import { addTracksToPlaylist, createPlaylist, getTempo } from '@/actions/tracks';
+// import { addTracksToPlaylist, createPlaylist, getTempo } from '@/actions/tracks';
 import { Track } from '@/types/tracks';
 
 export interface TrackPlus extends Track {
@@ -41,9 +41,9 @@ export const builderSlice = createAppSlice({
     }),
     getTempoAsync: create.asyncThunk(
       async (track: TrackPlus) => {
-        const response = await getTempo(track.id);
-        const tempo = await response.json();
-        return tempo;
+        // const response = await getTempo(track.id);
+        // const tempo = await response.json();
+        // return tempo;
       },
       {
         pending: (state) => {
@@ -53,7 +53,7 @@ export const builderSlice = createAppSlice({
           state.status = 'idle';
           state.tracks = state.tracks.map((track: TrackPlus) => {
             if (track.id === action.meta.arg.id) {
-              track.tempo = action.payload;
+              // track.tempo = action.payload;
             }
             return track;
           });
@@ -68,8 +68,8 @@ export const builderSlice = createAppSlice({
     }),
     addTracksToPlaylistAsync: create.asyncThunk(
       async ({ playlistId, trackIdList }: { playlistId: string; trackIdList: string[] }) => {
-        const response = await addTracksToPlaylist({ playlistId, trackIdList });
-        return response.data;
+        // const response = await addTracksToPlaylist({ playlistId, trackIdList });
+        // return response.data;
       },
       {
         pending: (state) => {

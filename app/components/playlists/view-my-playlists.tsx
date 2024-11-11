@@ -1,6 +1,6 @@
 'use client';
 
-import { getUserPlaylists } from '@/actions/playlists';
+// import { getUserPlaylists } from '@/actions/playlists';
 import { DataTable } from '@/components/data-table/data-table';
 import { addPlaylists, selectPlaylists } from '@/lib/features/playlists/playlistsSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
@@ -16,16 +16,14 @@ export default function PlaylistsTab() {
 
   const fetchPlaylists = useCallback(async () => {
     try {
-      const data = await getUserPlaylists();
-
-      const adjustedUserPlaylists = data.items?.map((playlist: UsersPlaylists) => ({
-        ...playlist,
-        imageUrl: playlist.images?.find((x) => x.height === 60)?.url ?? '#',
-        owner: playlist.owner.display_name,
-        tracksTotal: playlist.tracks.total,
-      }));
-
-      if (adjustedUserPlaylists?.length > 0) dispatch(addPlaylists(adjustedUserPlaylists));
+      // const data = await getUserPlaylists();
+      // const adjustedUserPlaylists = data.items?.map((playlist: UsersPlaylists) => ({
+      //   ...playlist,
+      //   imageUrl: playlist.images?.find((x) => x.height === 60)?.url ?? '#',
+      //   owner: playlist.owner.display_name,
+      //   tracksTotal: playlist.tracks.total,
+      // }));
+      // if (adjustedUserPlaylists?.length > 0) dispatch(addPlaylists(adjustedUserPlaylists));
     } catch (error) {
       console.error(error);
     }
