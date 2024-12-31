@@ -1,4 +1,5 @@
 import 'server-only';
+
 import { generateRandomUserState } from '@/lib/utils';
 import { redirect } from 'next/navigation';
 
@@ -16,15 +17,15 @@ export const authorizeSpotify = async () => {
   const scope = 'user-read-private user-read-email playlist-read-private playlist-read-collaborative';
   params.append('scope', scope);
 
-  if (process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID === undefined) {
+  if (process.env.SPOTIFY_CLIENT_ID === undefined) {
     throw new Error('Login - Spotify Client ID not defined');
   }
-  params.append('client_id', process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID);
+  params.append('client_id', process.env.SPOTIFY_CLIENT_ID);
 
-  if (process.env.NEXT_PUBLIC_SPOTIFY_REDIRECT_URI === undefined) {
+  if (process.env.SPOTIFY_REDIRECT_URI === undefined) {
     throw new Error('Login - Spotify Redirect URI not defined');
   }
-  params.append('redirect_uri', process.env.NEXT_PUBLIC_SPOTIFY_REDIRECT_URI);
+  params.append('redirect_uri', process.env.SPOTIFY_REDIRECT_URI);
 
   redirect('https://accounts.spotify.com/authorize?' + params.toString());
 };
