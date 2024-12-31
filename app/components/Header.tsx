@@ -1,4 +1,4 @@
-// import { ModeToggle } from '@/components/ModeToggle';
+import { ModeToggle } from '@/components/ModeToggle';
 import { User } from '@/types/user';
 
 import { UserButton } from '@clerk/nextjs';
@@ -11,7 +11,7 @@ export default function Header({ user }: { user?: User }) {
           <h1 className='text-2xl font-bold'>Octave</h1>
         </a>
         <div className='flex items-center justify-center space-x-4'>
-          {/* <ModeToggle /> */}
+          <ModeToggle />
           <UserButton />
         </div>
       </div>
