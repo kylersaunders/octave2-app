@@ -2,12 +2,12 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { StoreProvider } from './StoreProvider';
-import Header from './components/header/Header';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { ThemeSwitcher } from '@/components/theme-switcher';
 import { ClerkProvider, SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
-import Footer from './components/footer/Footer';
+import Header from '@/app/components/header/Header';
+import Footer from '@/app/components/footer/Footer';
 
 const inter = Inter({ subsets: ['latin'] });
 
