@@ -1,9 +1,9 @@
 import 'server-only';
 
 import { checkConnectedWithSpotify } from '@/actions/spotify/checkAuthorization';
-import Authorize from './components/authorize/page';
 import Home from './components/Home';
 import { authorizeSpotify } from '@/actions/spotify/authorizeSpotify';
+import Authorize from './components/authorize/AuthorizeSpotify';
 
 export default async function HomeServer() {
   try {
