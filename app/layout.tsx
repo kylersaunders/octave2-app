@@ -6,7 +6,7 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { ThemeSwitcher } from '@/components/theme-switcher';
 import { ClerkProvider, SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
-import Header from './components/header/Header';
+import Header from './components/Header';
 
 const inter = Inter({ subsets: ['latin'] });
 
