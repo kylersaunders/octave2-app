@@ -1,9 +1,10 @@
-import { getCachedToken } from '@/lib/auth/auth';
+import { getCachedToken, getHostUrl } from '@/lib/spotify/getCachedToken';
 import { searchTrackByAlbum, searchTrackByArtist, searchTrackByName } from '@/lib/spotify/search';
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { getFeatures } from '@/lib/spotify/common';
 import { EnhancedTrack } from '@/types/tracks';
+import { redirect } from 'next/navigation';
 
 export async function GET(request: NextRequest) {
   try {
@@ -13,7 +14,9 @@ export async function GET(request: NextRequest) {
     }
 
     const { accessToken } = await getCachedToken({ userId });
-
+    if (!accessToken) {
+      return NextResponse.redirect(`${getHostUrl()}/api/spotify/login`);
+    }
     const query = request.nextUrl.searchParams.get('q');
     const results: EnhancedTrack[] = [];
     if (query) {
@@ -44,7 +47,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(results);
     }
 
-    return new NextResponse('No query provided', { status: 400 });
+    return NextResponse.json('No query provided', { status: 400 });
   } catch (error) {
     console.error('Error in GET /api/route:', error);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });

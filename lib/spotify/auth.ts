@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { kv } from '@vercel/kv';
+import { encodeAuth, redis } from './getCachedToken';
 
 export const updateSpotifyToken = async ({ refreshToken, userId }: { refreshToken: string; userId: string }) => {
   if (userId === undefined || userId === null) {
@@ -40,7 +40,7 @@ export const updateSpotifyToken = async ({ refreshToken, userId }: { refreshToke
   }
 
   const expiresAt = new Date().getTime() + tokens.expires_in * 1000;
-  kv.set(userId + '_auth', { accessToken: tokens.access_token, refreshToken, expiresAt: expiresAt });
+  redis.hset(userId, encodeAuth({ accessToken: tokens.access_token, refreshToken, expiresAt: expiresAt }));
 
   return tokens.access_token;
 };

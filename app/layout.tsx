@@ -36,13 +36,12 @@ export default async function RootLayout({
           <html lang='en'>
             <body className='space-y-2'>
               <NextThemesProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
+                <ThemeSwitcher />
                 <TooltipProvider delayDuration={0}>
                   <Header />
                   {children}
                   <Footer />
                 </TooltipProvider>
-                <ThemeSwitcher />
-                {/* <LoginWithSpotify /> */}
               </NextThemesProvider>
             </body>
           </html>

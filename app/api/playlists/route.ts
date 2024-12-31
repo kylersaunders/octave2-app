@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getUserPlaylists, deletePlaylist, getPlaylistTracks, createPlaylist, addTracksToPlaylist } from '@/lib/spotify/playlists';
-import { getCachedToken } from '@/lib/auth/auth';
+import { getCachedToken } from '@/lib/spotify/getCachedToken';
 import { auth } from '@clerk/nextjs/server';
 
 export async function GET(request: Request) {

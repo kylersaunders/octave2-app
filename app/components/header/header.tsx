@@ -11,11 +11,9 @@ export default function Header({ user }: { user?: User }) {
         <a href='/'>
           <h1 className='text-2xl font-bold'>Octave</h1>
         </a>
-        <Footer />
         <div className='flex items-center justify-center space-x-4'>
           <ModeToggle />
           <UserButton />
-          {/* <SpotifyUser /> */}
         </div>
       </div>
     </header>

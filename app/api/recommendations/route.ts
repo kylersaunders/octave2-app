@@ -1,7 +1,7 @@
 import { auth } from '@clerk/nextjs/server';
 import { NextRequest } from 'next/server';
 import * as changeCase from 'change-case';
-import { getCachedToken } from '@/lib/auth/auth';
+import { getCachedToken } from '@/lib/spotify/getCachedToken';
 
 export async function GET(request: NextRequest, response: Response) {
   const { userId } = auth();

@@ -31,6 +31,7 @@ export default function SearchTab() {
   //   queryFn: () => searchByTerm(searchTerm),
   //   delay: 2000,
   // });
+
   const { isPending, isError, data, error } = useQuery({
     queryKey: ['search', searchTerm],
     queryFn: () => searchByTerm(searchTerm),
