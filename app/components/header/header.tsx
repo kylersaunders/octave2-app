@@ -2,7 +2,6 @@ import { ModeToggle } from '@/components/mode-toggle';
 import { User } from '@/types/user';
 
 import { UserButton } from '@clerk/nextjs';
-import Footer from '../footer/Footer';
 
 export default function Header({ user }: { user?: User }) {
   return (
